@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vynix Studio | Minecraft Discovery & Publishing Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        vynix: {
+                            dark: '#0a0b10',
+                            card: '#12141c',
+                            border: '#1e2230',
+                            purple: '#a855f7',
+                            cyan: '#06b6d4',
+                            green: '#10b981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-h: 100vh;
+            position: relative;
+        }
+
+        /* Beautiful Custom Minecraft Sunrise Wallpaper Background */
+        .minecraft-background {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-image: url('https://i.pinimg.com/originals/b5/70/4e/b5704ec1057c3d1000b2182054ff8e7b.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay to keep modern glassmorphism contrast readable */
+        .content-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(10, 11, 16, 0.78);
+            backdrop-filter: blur(10px);
+        }
+
+        .glass-panel {
+            background: rgba(18, 20, 28, 0.85);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            z-index: 10;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #a855f7 0%, #06b6d4 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0b10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e2230;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7;
+        }
+        button, input, select, textarea, a {
+            position: relative;
+            z-index: 30;
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body class="bg-vynix-dark text-slate-100 min-h-screen flex flex-col selection:bg-purple-500 selection:text-white relative">
+
+    <div class="minecraft-background"></div>
+    <div class="content-overlay"></div>
+
+    <div id="app-loading-screen" class="fixed inset-0 z-[120] bg-vynix-dark flex flex-col items-center justify-center p-4 transition-all duration-700">
+        <div class="glass-panel max-w-sm w-full p-8 rounded-2xl border border-purple-500/30 text-center shadow-2xl relative overflow-hidden">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 via-cyan-500 to-emerald-400 p-0.5 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-purple-500/30 animate-bounce">
+                <div class="w-full h-full bg-vynix-dark rounded-[14px] flex items-center justify-center">
+                    <i class="fa-solid fa-cube text-cyan-400 text-2xl"></i>
+                </div>
+            </div>
+            <h2 class="text-xl font-extrabold tracking-tight mb-1">VYNIX STUDIO</h2>
+            <p id="loader-status-msg" class="text-xs text-slate-400 mb-6">Loading Minecraft Universe...</p>
+            <div class="w-full bg-vynix-border rounded-full h-2 mb-3 overflow-hidden p-0.5">
+                <div id="loader-progress-bar" class="bg-gradient-to-r from-purple-600 to-cyan-500 h-full rounded-full transition-all duration-300 w-[20%]"></div>
+            </div>
+            <div class="flex justify-between text-[10px] font-mono text-slate-500">
+                <span id="loader-percent-text">20%</span>
+                <span>Secure Node</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="ddos-shield-overlay" class="fixed inset-0 z-[100] bg-vynix-dark flex items-center justify-center p-4 transition-all duration-500 hidden">
+        <div class="glass-panel max-w-md w-full p-8 rounded-2xl border border-cyan-500/30 text-center shadow-2xl relative overflow-hidden">
+            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mx-auto mb-6 text-cyan-400 text-2xl shadow-lg">
+                <i class="fa-solid fa-shield-halved animate-pulse"></i>
+            </div>
+            <h2 class="text-xl font-extrabold tracking-tight mb-2">DDoS Protection Active</h2>
+            <p id="shield-status-text" class="text-xs text-slate-400 mb-6 leading-relaxed">
+                Verifying your secure browser handshake before entering Vynix Studio.
+            </p>
+            <div class="space-y-4">
+                <div class="p-4 bg-vynix-card rounded-xl border border-vynix-border flex items-center justify-between text-xs">
+                    <span class="text-slate-300 font-medium flex items-center gap-2">
+                        <i class="fa-solid fa-microchip text-purple-400"></i> Browser Integrity
+                    </span>
+                    <span id="integrity-badge" class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">Verifying...</span>
+                </div>
+                <button id="shield-verify-btn" onclick="passDdosChallenge()" disabled class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white rounded-xl shadow-lg opacity-50 cursor-not-allowed transition-all">
+                    <i class="fa-solid fa-spinner animate-spin mr-2" id="shield-spinner"></i> Initializing Security Protocol...
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-vynix-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="router('home')">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 via-cyan-500 to-emerald-400 p-0.5 flex items-center justify-center shadow-lg">
+                    <div class="w-full h-full bg-vynix-dark rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid fa-cube text-cyan-400"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-wide gradient-text">VYNIX STUDIO</span>
+                    <span class="block text-[10px] uppercase tracking-widest text-slate-400 font-semibold">Publishing Hub</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-300">
+                <button onclick="router('home')" class="hover:text-cyan-400 transition-colors cursor-pointer">Home</button>
+                <button onclick="router('discover')" class="hover:text-cyan-400 transition-colors cursor-pointer">Discover</button>
+                <button onclick="router('publish')" class="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1.5 cursor-pointer"><i class="fa-solid fa-plus-circle text-xs"></i> Submit Project</button>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <div class="relative hidden sm:block">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 z-10">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </span>
+                    <input type="text" id="global-search-input" placeholder="Search mods..." onkeypress="handleGlobalSearch(event)"
+                        class="bg-vynix-card/90 border border-vynix-border text-xs rounded-xl pl-9 pr-4 py-2.5 w-60 focus:outline-none focus:border-cyan-500 text-slate-200 placeholder-slate-500">
+                </div>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2 text-lg cursor-pointer">
+                    <i id="mobile-menu-icon" class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-dropdown-menu" class="hidden md:hidden glass-panel border-t border-vynix-border px-6 py-4 space-y-3">
+            <button onclick="toggleMobileMenu(); router('home')" class="block w-full text-left text-sm font-semibold py-2 hover:text-cyan-400">Home</button>
+            <button onclick="toggleMobileMenu(); router('discover')" class="block w-full text-left text-sm font-semibold py-2 hover:text-cyan-400">Discover</button>
+            <button onclick="toggleMobileMenu(); router('publish')" class="block w-full text-left text-sm font-semibold py-2 text-cyan-400">Submit Project</button>
+        </div>
+    </header>
+
+    <main id="app-container" class="flex-grow pt-20 relative z-10">
+        <div id="view-home" class="view-section">
+            <section class="relative overflow-hidden py-24 lg:py-32 border-b border-vynix-border/50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 text-center">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300 text-xs font-semibold mb-6">
+                        <i class="fa-solid fa-shield-halved text-cyan-400"></i> Protected by Vynix Firewall Hub
+                    </div>
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto leading-tight">
+                        Discover & Publish <span class="gradient-text">Minecraft Creations</span>
+                    </h1>
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-10 drop-shadow-md">
+                        Explore community mods, resource packs, shaders, and register your own projects with verified external Modrinth or CurseForge links.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button onclick="router('discover')" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white shadow-lg hover:opacity-95 transition-all cursor-pointer">
+                            <i class="fa-solid fa-compass mr-2"></i> Explore Hub
+                        </button>
+                        <button onclick="router('publish')" class="px-8 py-3.5 rounded-xl glass-panel font-bold text-cyan-400 hover:border-cyan-500/50 transition-all cursor-pointer">
+                            <i class="fa-solid fa-upload mr-2"></i> Submit New Project
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-cyan-400"></i> Creator Published Projects
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Projects uploaded and managed locally through the publishing portal</p>
+                    </div>
+                    <button onclick="router('publish')" class="text-xs font-semibold text-cyan-400 hover:underline cursor-pointer">Publish Yours +</button>
+                </div>
+                <div id="creator-published-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            </section>
+
+            <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
+                            <i class="fa-solid fa-fire text-orange-500"></i> Trending Community Projects
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1" id="project-counter-text">Live bulk-fetched from Modrinth API</p>
+                    </div>
+                </div>
+                <div id="home-trending-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+        </div>
+
+        <div id="view-discover" class="view-section hidden py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+            <div class="mb-8">
+                <h1 class="text-3xl font-extrabold tracking-tight mb-2">Discovery Hub</h1>
+                <p class="text-sm text-slate-400">Search community uploads and deep live Modrinth/CurseForge repositories instantly.</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl mb-8 space-y-4">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 z-10">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input type="text" id="discover-search-input" placeholder="Search mods, plugins, shaders..." onkeypress="if(event.key === 'Enter') triggerLiveSearch()"
+                            class="bg-vynix-dark border border-vynix-border rounded-xl pl-11 pr-4 py-3 w-full focus:outline-none focus:border-cyan-500 text-sm text-slate-200">
+                    </div>
+                    <button onclick="triggerLiveSearch()" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-bold rounded-xl transition-all shadow-lg cursor-pointer">
+                        Search Live
+                    </button>
+                </div>
+
+                <div class="flex flex-wrap gap-2 pt-2 border-t border-vynix-border/60" id="category-filter-chips">
+                    <button onclick="setCategoryFilter('all')" class="cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500 text-vynix-dark transition-all cursor-pointer">All</button>
+                    <button onclick="setCategoryFilter('modpack')" class="cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-vynix-dark text-slate-300 hover:bg-vynix-border transition-all cursor-pointer">Modpacks</button>
+                    <button onclick="setCategoryFilter('mod')" class="cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-vynix-dark text-slate-300 hover:bg-vynix-border transition-all cursor-pointer">Mods</button>
+                    <button onclick="setCategoryFilter('plugin')" class="cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-vynix-dark text-slate-300 hover:bg-vynix-border transition-all cursor-pointer">Plugins</button>
+                    <button onclick="setCategoryFilter('shader')" class="cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-vynix-dark text-slate-300 hover:bg-vynix-border transition-all cursor-pointer">Shaders</button>
+                    <button onclick="setCategoryFilter('resourcepack')" class="cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-vynix-dark text-slate-300 hover:bg-vynix-border transition-all cursor-pointer">Resource Packs</button>
+                </div>
+            </div>
+
+            <div id="discover-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+            <div id="load-more-container" class="mt-10 text-center hidden">
+                <button onclick="loadMoreProjects()" class="px-8 py-3.5 rounded-xl glass-panel font-bold text-cyan-400 hover:border-cyan-500/50 transition-all cursor-pointer">
+                    <i class="fa-solid fa-rotate-right mr-2"></i> Load More Projects
+                </button>
+            </div>
+        </div>
+
+        <div id="view-publish" class="view-section hidden py-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+            <div class="mb-8">
+                <h1 class="text-3xl font-extrabold tracking-tight mb-2">Publish Project</h1>
+                <p class="text-sm text-slate-400">Upload and manage project metadata with verified external download links.</p>
+            </div>
+
+            <div class="glass-panel p-8 rounded-2xl">
+                <form id="submit-project-form" onsubmit="handleProjectSubmission(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Project Title *</label>
+                            <input type="text" id="pub-title" required placeholder="e.g. Awesome Mod"
+                                class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Author / Creator *</label>
+                            <input type="text" id="pub-author" required placeholder="e.g. Community Builder"
+                                class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Short Description *</label>
+                        <textarea id="pub-desc" required rows="2" placeholder="Brief summary of your project..."
+                            class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Category *</label>
+                            <select id="pub-category" class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                                <option value="modpack">Modpack</option>
+                                <option value="mod">Mod</option>
+                                <option value="plugin">Plugin</option>
+                                <option value="shader">Shader</option>
+                                <option value="resourcepack">Resource Pack</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Icon Image URL</label>
+                            <input type="url" id="pub-icon" placeholder="https://example.com/icon.png"
+                                class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Modrinth URL (Optional)</label>
+                            <input type="url" id="pub-modrinth" placeholder="https://modrinth.com/project/slug"
+                                class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">CurseForge URL (Optional)</label>
+                            <input type="url" id="pub-curseforge" placeholder="https://www.curseforge.com/minecraft/..."
+                                class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-cyan-500">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white rounded-xl shadow-lg hover:opacity-95 transition-all cursor-pointer">
+                        Publish Project Showcase
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="view-details" class="view-section hidden py-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+            <button onclick="window.history.back()" class="mb-6 inline-flex items-center text-xs font-semibold text-slate-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back to Hub
+            </button>
+            <div id="project-details-content" class="glass-panel p-8 rounded-2xl">
+                <div class="flex justify-center items-center py-20 text-slate-500">
+                    <i class="fa-solid fa-spinner animate-spin mr-2"></i> Loading project specification...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-auto border-t border-vynix-border py-8 text-center text-xs text-slate-500 relative z-25">
+        <p>Vynix Studio Publishing Hub &copy; 2026. Powered by custom Minecraft environment themes.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('loader-progress-bar');
+            const percentText = document.getElementById('loader-percent-text');
+            const statusMsg = document.getElementById('loader-status-msg');
+            const loadingScreen = document.getElementById('app-loading-screen');
+
+            let progress = 20;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 20) + 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    statusMsg.textContent = "Ready!";
+                    progressBar.style.width = '100%';
+                    percentText.textContent = '100%';
+                    
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        setTimeout(() => { loadingScreen.style.display = 'none'; }, 700);
+                    }, 400);
+                } else {
+                    progressBar.style.width = progress + '%';
+                    percentText.textContent = progress + '%';
+                }
+            }, 150);
+
+            setTimeout(() => {
+                document.getElementById('integrity-badge').textContent = "Passed";
+                document.getElementById('integrity-badge').className = "px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30";
+                const verifyBtn = document.getElementById('shield-verify-btn');
+                verifyBtn.disabled = false;
+                verifyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                verifyBtn.innerHTML = '<i class="fa-solid fa-shield-check mr-2"></i> Proceed to Hub';
+                document.getElementById('shield-spinner').style.display = 'none';
+            }, 1000);
+        });
+
+        function passDdosChallenge() {
+            const overlay = document.getElementById('ddos-shield-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.display = 'none'; }, 500);
+        }
+
+        let userProjects = JSON.parse(localStorage.getItem('vynix_user_projects') || '[]');
+
+        async function fetchInitialProjectsBulk(query = '', category = 'all', offset = 0, limit = 50) {
+            let allFetchedHits = [];
+            try {
+                let apiUrl = `https://api.modrinth.com/v2/search?query=${encodeURIComponent(query)}&limit=${limit}&offset=${offset}&index=downloads`;
+                if (category !== 'all') apiUrl += `&facets=[["project_type:${category}"]]`;
+                const response = await fetch(apiUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.hits) allFetchedHits = data.hits;
+                }
+            } catch (e) { console.error(e); }
+
+            return {
+                hits: allFetchedHits.map(hit => ({
+                    id: 'modrinth_' + hit.project_id,
+                    title: hit.title,
+                    author: hit.author || 'Community',
+                    description: hit.description,
+                    downloads: formatNumber(hit.downloads),
+                    categories: hit.categories || [hit.project_type],
+                    platform: 'Modrinth',
+                    icon: hit.icon_url || 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4e6.png',
+                    modrinthUrl: hit.slug ? `https://modrinth.com/project/${encodeURIComponent(hit.slug)}` : null
+                }))
+            };
+        }
+
+        let homeTrendingCache = [];
+        let discoverSearchCache = [];
+        let currentCategory = 'all';
+        let currentOffsetTracker = 0;
+
+        function router(viewName, param = null) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const targetView = document.getElementById(`view-${viewName}`);
+            if (targetView) {
+                targetView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            if (viewName === 'home') loadHomeData();
+            if (viewName === 'discover' && !window.hasLoadedDiscover) {
+                loadDiscoverProjects();
+                window.hasLoadedDiscover = true;
+            }
+            if (viewName === 'details' && param) loadProjectDetails(param);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-dropdown-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            icon.className = menu.classList.contains('hidden') ? "fa-solid fa-bars" : "fa-solid fa-xmark";
+        }
+
+        function handleGlobalSearch(event) {
+            if (event.key === 'Enter') {
+                const query = event.target.value.trim();
+                if (query) {
+                    router('discover');
+                    document.getElementById('discover-search-input').value = query;
+                    triggerLiveSearch();
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => router('home'));
+
+        function getValidUrl(urlStr) {
+            if (!urlStr || typeof urlStr !== 'string') return null;
+            try {
+                const parsed = new URL(urlStr);
+                return (parsed.protocol === 'http:' || parsed.protocol === 'https:') ? parsed.toString() : null;
+            } catch { return null; }
+        }
+
+        function openDownload(project, event) {
+            if (event) event.stopPropagation();
+            const url = getValidUrl(project.modrinthUrl) || getValidUrl(project.curseforgeUrl);
+            if (url) window.open(url, '_blank', 'noopener,noreferrer');
+            else alert('Official external download link unavailable.');
+        }
+
+        function handleProjectSubmission(event) {
+            event.preventDefault();
+            const title = document.getElementById('pub-title').value.trim();
+            const author = document.getElementById('pub-author').value.trim();
+            const description = document.getElementById('pub-desc').value.trim();
+            const category = document.getElementById('pub-category').value;
+            const icon = document.getElementById('pub-icon').value.trim() || 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4e6.png';
+            const modrinthUrl = document.getElementById('pub-modrinth').value.trim();
+            const curseforgeUrl = document.getElementById('pub-curseforge').value.trim();
+
+            const validModrinth = getValidUrl(modrinthUrl);
+            const validCurseForge = getValidUrl(curseforgeUrl);
+
+            if (!validModrinth && !validCurseForge) {
+                alert('Validation Error: You must provide a valid Modrinth or CurseForge URL.');
+                return;
+            }
+
+            const newProj = {
+                id: 'custom_' + Date.now(),
+                title, author, description,
+                downloads: 'New',
+                categories: [category],
+                platform: validModrinth ? 'Modrinth Link' : 'CurseForge Link',
+                icon,
+                modrinthUrl: validModrinth || '',
+                curseforgeUrl: validCurseForge || ''
+            };
+
+            userProjects.unshift(newProj);
+            localStorage.setItem('vynix_user_projects', JSON.stringify(userProjects));
+            alert('Project published successfully!');
+            document.getElementById('submit-project-form').reset();
+            router('home');
+        }
+
+        async function loadHomeData() {
+            const creatorGrid = document.getElementById('creator-published-grid');
+            creatorGrid.innerHTML = userProjects.length > 0 ? userProjects.slice(0, 4).map(proj => createCardHtml(proj)).join('') : `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs col-span-full">No custom user projects published yet.</div>`;
+
+            const trendingGrid = document.getElementById('home-trending-grid');
+            trendingGrid.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs col-span-full"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Loading trending projects...</div>`;
+            
+            try {
+                const result = await fetchInitialProjectsBulk();
+                homeTrendingCache = result.hits;
+                trendingGrid.innerHTML = homeTrendingCache.slice(0, 6).map(proj => createCardHtml(proj)).join('');
+            } catch (err) {
+                trendingGrid.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs col-span-full">Community data unavailable</div>`;
+            }
+        }
+
+        function setCategoryFilter(cat) {
+            currentCategory = cat;
+            currentOffsetTracker = 0;
+            document.querySelectorAll('.cat-chip').forEach(btn => {
+                btn.className = "cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-vynix-dark text-slate-300 hover:bg-vynix-border transition-all cursor-pointer";
+            });
+            event.target.className = "cat-chip px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500 text-vynix-dark transition-all cursor-pointer";
+            triggerLiveSearch();
+        }
+
+        async function loadDiscoverProjects() { triggerLiveSearch(); }
+
+        async function triggerLiveSearch() {
+            const queryInput = document.getElementById('discover-search-input').value.trim();
+            const resultsGrid = document.getElementById('discover-results-grid');
+            const loadMoreContainer = document.getElementById('load-more-container');
+
+            resultsGrid.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-400 text-xs col-span-full"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Searching repositories...</div>`;
+            loadMoreContainer.classList.add('hidden');
+
+            discoverSearchCache = [];
+            currentOffsetTracker = 0;
+            const queryLower = queryInput.toLowerCase();
+
+            userProjects.forEach(p => {
+                if (!queryInput || p.title.toLowerCase().includes(queryLower)) {
+                    if (currentCategory === 'all' || p.categories.includes(currentCategory)) discoverSearchCache.push(p);
+                }
+            });
+
+            try {
+                const result = await fetchInitialProjectsBulk(queryInput, currentCategory, currentOffsetTracker, 30);
+                discoverSearchCache = discoverSearchCache.concat(result.hits);
+                currentOffsetTracker += result.hits.length;
+
+                if (discoverSearchCache.length === 0) {
+                    resultsGrid.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-400 text-xs col-span-full">No projects found matching criteria.</div>`;
+                } else {
+                    resultsGrid.innerHTML = discoverSearchCache.map(proj => createCardHtml(proj)).join('');
+                    loadMoreContainer.classList.remove('hidden');
+                }
+            } catch (e) {
+                resultsGrid.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-400 text-xs col-span-full">Failed to fetch items.</div>`;
+            }
+        }
+
+        async function loadMoreProjects() {
+            const queryInput = document.getElementById('discover-search-input').value.trim();
+            const resultsGrid = document.getElementById('discover-results-grid');
+            try {
+                const result = await fetchInitialProjectsBulk(queryInput, currentCategory, currentOffsetTracker, 30);
+                if (result.hits.length > 0) {
+                    discoverSearchCache = discoverSearchCache.concat(result.hits);
+                    currentOffsetTracker += result.hits.length;
+                    resultsGrid.innerHTML = discoverSearchCache.map(proj => createCardHtml(proj)).join('');
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function loadProjectDetails(projectId) {
+            const container = document.getElementById('project-details-content');
+            router('details');
+
+            const localProj = userProjects.find(p => p.id === projectId);
+            if (localProj) {
+                const validUrl = getValidUrl(localProj.modrinthUrl) || getValidUrl(localProj.curseforgeUrl);
+                container.innerHTML = `
+                    <div class="glass-panel p-8 rounded-2xl">
+                        <div class="flex items-center gap-6 mb-8 pb-6 border-b border-vynix-border">
+                            <img src="${localProj.icon}" class="w-20 h-20 rounded-2xl bg-vynix-dark p-2 object-cover border border-vynix-border">
+                            <div>
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">${localProj.platform}</span>
+                                <h1 class="text-3xl font-extrabold mt-2">${localProj.title}</h1>
+                                <p class="text-sm text-slate-400 mt-1">Created by ${localProj.author}</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-6">${localProj.description}</p>
+                        ${validUrl ? `<button onclick="openDownload({ modrinthUrl: '${localProj.modrinthUrl}', curseforgeUrl: '${localProj.curseforgeUrl}' }, event)" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white rounded-xl shadow-lg cursor-pointer"><i class="fa-solid fa-external-link mr-2"></i> Visit External Page</button>` : ''}
+                    </div>
+                `;
+                return;
+            }
+
+            if (projectId.startsWith('modrinth_')) {
+                const rawId = projectId.replace('modrinth_', '');
+                try {
+                    const res = await fetch(`https://api.modrinth.com/v2/project/${rawId}`);
+                    const data = await res.json();
+                    const validProjectUrl = data.slug ? `https://modrinth.com/project/${data.slug}` : null;
+                    container.innerHTML = `
+                        <div class="glass-panel p-8 rounded-2xl">
+                            <div class="flex items-center gap-6 mb-8 pb-6 border-b border-vynix-border">
+                                <img src="${data.icon_url || 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4e6.png'}" class="w-20 h-20 rounded-2xl bg-vynix-dark object-cover border border-vynix-border">
+                                <div>
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Modrinth API</span>
+                                    <h1 class="text-3xl font-extrabold mt-2">${data.title}</h1>
+                                    <p class="text-sm text-slate-400 mt-1">${data.description}</p>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-vynix-dark rounded-xl border border-vynix-border text-xs text-slate-300 max-h-96 overflow-y-auto mb-6">
+                                ${data.body || 'No extended body provided.'}
+                            </div>
+                            ${validProjectUrl ? `<button onclick="openDownload({ modrinthUrl: '${validProjectUrl}' }, event)" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white rounded-xl shadow-lg cursor-pointer"><i class="fa-solid fa-external-link mr-2"></i> Visit Modrinth Page</button>` : ''}
+                        </div>
+                    `;
+                } catch { container.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-400">Data unavailable.</div>`; }
+            }
+        }
+
+        function createCardHtml(proj) {
+            const validExternalUrl = getValidUrl(proj.modrinthUrl) || getValidUrl(proj.curseforgeUrl);
+            return `
+                <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-500/40 transition-all cursor-pointer group shadow-md" onclick="router('details', '${proj.id}')">
+                    <div>
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="${proj.icon}" class="w-12 h-12 rounded-xl object-cover bg-vynix-dark p-1 border border-vynix-border">
+                                <div>
+                                    <h4 class="font-bold text-base group-hover:text-cyan-400 transition-colors line-clamp-1">${proj.title}</h4>
+                                    <span class="text-xs text-slate-400">by ${proj.author || 'Community'}</span>
+                                </div>
+                            </div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">${proj.platform}</span>
+                        </div>
+                        <p class="text-xs text-slate-300 mb-4 line-clamp-2 leading-relaxed">${proj.description}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-3 border-t border-vynix-border/60 text-xs text-slate-400">
+                        <div><i class="fa-solid fa-download mr-1 text-cyan-400"></i> ${proj.downloads}</div>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); router('details', '${proj.id}')" class="px-3 py-1.5 bg-vynix-dark hover:bg-slate-800 text-slate-200 font-semibold rounded-xl border border-vynix-border cursor-pointer">Details</button>
+                            ${validExternalUrl ? `<button onclick="openDownload({ modrinthUrl: '${proj.modrinthUrl || ''}', curseforgeUrl: '${proj.curseforgeUrl || ''}' }, event)" class="px-3 py-1.5 bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white font-semibold rounded-xl border border-cyan-500/30 cursor-pointer">Download</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatNumber(num) {
+            if (!num) return '0';
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+            return num.toString();
+        }
+    </script>
+</body>
+</html>
