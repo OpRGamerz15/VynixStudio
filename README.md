@@ -35,11 +35,7 @@ No build tools or backend are required.
 ```
 vynix-studio-web/
 ├── index.html
-├── style.css          # optional
-├── script.js          # optional
-├── assets/
-│   ├── icons/
-│   └── images/
+├── CNAME
 └── README.md
 ```
 
