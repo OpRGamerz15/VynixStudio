@@ -151,12 +151,6 @@
                     <input type="text" id="global-search-input" placeholder="Search mods..." onkeypress="handleGlobalSearch(event)"
                         class="bg-vynix-card/90 border border-vynix-border text-xs rounded-xl pl-9 pr-4 py-2.5 w-60 focus:outline-none focus:border-cyan-500 text-slate-200 placeholder-slate-500">
                 </div>
-                
-                <div class="hidden lg:flex items-center gap-2">
-                    <span class="px-3 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30 text-xs flex items-center gap-1.5 shadow-lg">
-                        <i class="fa-solid fa-shield-check text-cyan-400"></i> Owner Full Access Active
-                    </span>
-                </div>
             </div>
         </div>
     </header>
@@ -192,9 +186,9 @@
                 <div class="flex items-center justify-between mb-8">
                     <div>
                         <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
-                            <i class="fa-solid fa-star text-amber-400"></i> Owner Spotlight Showcase
+                            <i class="fa-solid fa-star text-amber-400"></i> Featured Spotlight Showcase
                         </h2>
-                        <p class="text-xs text-slate-400 mt-1">Hand-picked featured project selected by the platform owner</p>
+                        <p class="text-xs text-slate-400 mt-1">Hand-picked featured project selected by the community</p>
                     </div>
                 </div>
                 <div id="spotlight-showcase-container"></div>
@@ -365,9 +359,8 @@
             }, 100);
         });
 
-        // Owner privileges permanently enabled without login prompts
+        // Clean public storage without restrictive access privileges
         let userProjects = JSON.parse(localStorage.getItem('vynix_user_projects') || '[]');
-        let spotlightProjectId = localStorage.getItem('vynix_spotlight_id') || null;
 
         let currentActiveView = 'home';
         function router(viewName, param = null) {
@@ -422,51 +415,19 @@
                 platform: 'Custom Site',
                 icon,
                 modrinthUrl: validCustom || '',
-                status: 'pending'
+                status: 'public'
             };
 
             userProjects.unshift(newProj);
             localStorage.setItem('vynix_user_projects', JSON.stringify(userProjects));
-            alert('Project submitted successfully! It is pending owner approval.');
+            alert('Project published successfully and is now live!');
             document.getElementById('submit-project-form').reset();
             router('home');
         }
 
-        function approveProject(id, event) {
-            if (event) event.stopPropagation();
-            const proj = userProjects.find(p => p.id === id);
-            if (proj) {
-                proj.status = 'approved';
-                localStorage.setItem('vynix_user_projects', JSON.stringify(userProjects));
-                loadHomeData();
-                alert('Project approved successfully.');
-            }
-        }
-
-        function declineProject(id, event) {
-            if (event) event.stopPropagation();
-            userProjects = userProjects.filter(p => p.id !== id);
-            if (spotlightProjectId === id) {
-                spotlightProjectId = null;
-                localStorage.removeItem('vynix_spotlight_id');
-            }
-            localStorage.setItem('vynix_user_projects', JSON.stringify(userProjects));
-            loadHomeData();
-            alert('Project deleted/declined.');
-        }
-
-        function setSpotlightProject(id, event) {
-            if (event) event.stopPropagation();
-            spotlightProjectId = id;
-            localStorage.setItem('vynix_spotlight_id', id);
-            alert('Project successfully set as Owner Spotlight!');
-            loadHomeData();
-        }
-
         async function loadHomeData() {
             const spotlightContainer = document.getElementById('spotlight-showcase-container');
-            let spotlightProj = spotlightProjectId ? userProjects.find(p => p.id === spotlightProjectId && p.status === 'approved') : null;
-            if (!spotlightProj) spotlightProj = userProjects.find(p => p.status === 'approved');
+            let spotlightProj = userProjects.length > 0 ? userProjects[0] : null;
 
             if (spotlightProj) {
                 spotlightContainer.innerHTML = `
@@ -485,7 +446,7 @@
                     </div>
                 `;
             } else {
-                spotlightContainer.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs">No spotlight project selected yet.</div>`;
+                spotlightContainer.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs">No projects available for spotlight yet. Publish one to feature it!</div>`;
             }
 
             const creatorGrid = document.getElementById('creator-published-grid');
@@ -550,8 +511,6 @@
 
         function createCardHtml(proj) {
             const validExternalUrl = getValidUrl(proj.modrinthUrl);
-            const isPending = proj.status === 'pending';
-            const isCustom = proj.id.startsWith('custom_');
 
             return `
                 <div class="glass-panel p-5 rounded-2xl flex flex-col justify-between hover:border-cyan-500/40 transition-all cursor-pointer group shadow-md" onclick="router('details', '${proj.id}')">
@@ -564,20 +523,12 @@
                                     <span class="text-xs text-slate-400">by ${proj.author || 'Community'}</span>
                                 </div>
                             </div>
-                            <div class="flex flex-col items-end gap-1">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">${proj.platform}</span>
-                                ${isCustom ? `<span class="px-2 py-0.5 rounded text-[10px] font-bold ${isPending ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'}">${proj.status}</span>` : ''}
-                            </div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">${proj.platform}</span>
                         </div>
                         <p class="text-xs text-slate-300 mb-4 line-clamp-2 leading-relaxed">${proj.description}</p>
                     </div>
 
                     <div>
-                        <div class="grid grid-cols-3 gap-1 mb-3 pt-2 border-t border-vynix-border/60">
-                            ${isPending ? `<button onclick="approveProject('${proj.id}', event)" class="py-1.5 px-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[10px] font-bold cursor-pointer"><i class="fa-solid fa-check"></i> Approve</button>` : `<button onclick="setSpotlightProject('${proj.id}', event)" class="py-1.5 px-2 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-bold cursor-pointer"><i class="fa-solid fa-star"></i> Spotlight</button>`}
-                            <button onclick="declineProject('${proj.id}', event)" class="py-1.5 px-2 bg-rose-600 hover:bg-rose-500 text-white rounded text-[10px] font-bold cursor-pointer col-span-2"><i class="fa-solid fa-trash"></i> Delete/Decline</button>
-                        </div>
-
                         <div class="flex items-center justify-between pt-3 border-t border-vynix-border/60 text-xs text-slate-400">
                             <div><i class="fa-solid fa-download mr-1 text-cyan-400"></i> ${proj.downloads}</div>
                             <div class="flex gap-2">
@@ -597,14 +548,12 @@
             const localProj = userProjects.find(p => p.id === projectId);
             if (localProj) {
                 const validUrl = getValidUrl(localProj.modrinthUrl);
-                const isPending = localProj.status === 'pending';
                 container.innerHTML = `
                     <div class="flex items-center gap-6 mb-8 pb-6 border-b border-vynix-border">
                         <img src="${localProj.icon}" class="w-20 h-20 rounded-2xl bg-vynix-dark p-2 object-cover border border-vynix-border">
                         <div>
                             <div class="flex items-center gap-2 mb-1">
                                 <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">${localProj.platform}</span>
-                                <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isPending ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">Status: ${localProj.status}</span>
                             </div>
                             <h1 class="text-3xl font-extrabold mt-2">${localProj.title}</h1>
                             <p class="text-sm text-slate-400 mt-1">Created by ${localProj.author}</p>
@@ -614,12 +563,6 @@
                     
                     <div class="flex flex-wrap gap-4 items-center">
                         ${validUrl ? `<button onclick="openDownload({ modrinthUrl: '${localProj.modrinthUrl}' }, event)" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white rounded-xl shadow-lg cursor-pointer"><i class="fa-solid fa-external-link mr-2"></i> Visit External Site Page</button>` : ''}
-                        
-                        <div class="flex items-center gap-2 pt-2 border-t sm:border-t-0 border-vynix-border w-full sm:w-auto">
-                            ${isPending ? `<button onclick="approveProject('${localProj.id}', event); router('details', '${localProj.id}')" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl cursor-pointer"><i class="fa-solid fa-check mr-1"></i> Approve</button>` : ''}
-                            <button onclick="declineProject('${localProj.id}', event); router('home')" class="px-4 py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl cursor-pointer"><i class="fa-solid fa-trash mr-1"></i> Delete/Decline</button>
-                            ${localProj.status === 'approved' ? `<button onclick="setSpotlightProject('${localProj.id}', event)" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl cursor-pointer"><i class="fa-solid fa-star mr-1"></i> Set Spotlight</button>` : ''}
-                        </div>
                     </div>
                 `;
             }
