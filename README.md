@@ -1,21 +1,17 @@
 # Vynix Studio Web
 
-A modern Minecraft project discovery platform for **Vynix Studio**. The website uses **live Modrinth and CurseForge APIs** to display real Minecraft projects, modpacks, plugins, shaders, and resource packs without using fake data.
+The official website and control center for **Vynix Studio**, a Minecraft technology and development studio. Vynix creates its own products, software, modpacks, shaders, and developer tools. It is not a marketplace or community project directory.
 
 ---
 
 ## ✨ Features
 
-* 🔴 **Live Modrinth API integration**
-* 🟠 **Live CurseForge API integration**
-* 🔍 Real-time project search
-* 📂 Category filters
-* 📦 Project cards with real metadata
+* 🔴 **Live Modrinth data for official Vynix PVP and VynixShader products**
+* 🧭 Official product showcase
+* 🛠️ Vynix Studio Control Center
 * 🌙 Dark Minecraft-inspired UI
 * 📱 Fully responsive design
-* 🚀 **100,000+ Modrinth projects supported**
-* ➕ **Load More** system for progressive browsing
-* 🔗 Official external links only (Modrinth / CurseForge)
+* 🔗 Official Vynix product links only
 
 ---
 
@@ -24,7 +20,7 @@ A modern Minecraft project discovery platform for **Vynix Studio**. The website 
 * **HTML5**
 * **Tailwind CSS (CDN)**
 * **Vanilla JavaScript**
-* **Fetch API**
+* **Fetch API** for the two official Modrinth product integrations
 
 No build tools or backend are required.
 
@@ -35,6 +31,7 @@ No build tools or backend are required.
 ```
 vynix-studio-web/
 ├── index.html
+├── dashboard/index.html
 ├── CNAME
 └── README.md
 ```
@@ -60,17 +57,9 @@ http://localhost:8000
 
 ---
 
-## 🌐 Modrinth API Example
+## 🌐 Official Product API Data
 
-```js
-async function fetchProjects(offset = 0, limit = 100) {
-  const response = await fetch(
-    `https://api.modrinth.com/v2/search?limit=${limit}&offset=${offset}`
-  );
-
-  return await response.json();
-}
-```
+The application uses Modrinth project and version endpoints only for the official Vynix PVP and VynixShader pages. It does not search, browse, recommend, or import arbitrary Modrinth projects.
 
 ---
 
@@ -91,4 +80,4 @@ This project is provided for **Vynix Studio** and may be modified for personal o
 
 ## 🎮 About
 
-Vynix Studio Web is designed to feel like a **modern Minecraft discovery platform**, combining a premium dark UI with live API-powered project browsing for the Minecraft community.
+Vynix Studio Web is designed to present a **Minecraft technology studio**, combining a premium dark public site with a live product control center.

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     
     <title>Vynix Studio | Minecraft Mods, Modpacks & Developer Community</title>
-    <meta name="description" content="Explore Vynix Studio by NovaGamer15. Discover 100,000+ Projects including community Minecraft mods, custom plugins, high-performance modpacks, shaders, resource packs, and join our active gaming hub.">
-    <meta name="keywords" content="Vynix Studio, NovaGamer15, Minecraft mods, Minecraft modpacks, Minecraft plugins, Minecraft shaders, Minecraft resource packs, Minecraft data packs, server development, gaming community">
+    <meta name="description" content="Vynix Studio is a Minecraft technology and development studio creating launchers, tools, modpacks, shaders, and software for the Minecraft community.">
+    <meta name="keywords" content="Vynix Studio, Minecraft technology studio, Minecraft software development, Vynix PVP, VynixShader, Vynix Launcher, Vynix Forge">
     <meta name="author" content="NovaGamer15">
     <link rel="canonical" href="https://www.vynixstudio.indevs.in/">
     <meta name="theme-color" content="#0a0b10">
@@ -16,13 +16,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.vynixstudio.indevs.in/">
     <meta property="og:title" content="Vynix Studio | Minecraft Mods, Modpacks & Developer Community">
-    <meta property="og:description" content="Explore Vynix Studio by NovaGamer15. Discover 100,000+ Projects including community Minecraft mods, custom plugins, high-performance modpacks, shaders, resource packs, and join our active gaming hub.">
+    <meta property="og:description" content="Vynix Studio is a Minecraft technology and development studio creating launchers, tools, modpacks, shaders, and software.">
     <meta property="og:image" content="https://i.pinimg.com/originals/b5/70/4e/b5704ec1057c3d1000b2182054ff8e7b.jpg">
     <meta property="og:site_name" content="Vynix Studio">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Vynix Studio | Minecraft Mods & Developer Community">
-    <meta name="twitter:description" content="Explore Vynix Studio by NovaGamer15. Discover 100,000+ Projects including Minecraft mods, custom plugins, modpacks, shaders, resource packs, and developer tools.">
+    <meta name="twitter:description" content="Vynix Studio is a Minecraft technology and development studio creating launchers, tools, modpacks, shaders, and software.">
     <meta name="twitter:image" content="https://i.pinimg.com/originals/b5/70/4e/b5704ec1057c3d1000b2182054ff8e7b.jpg">
 
     <script type="application/ld+json">
@@ -46,12 +46,7 @@
             "@type": "WebSite",
             "name": "Vynix Studio",
             "url": "https://www.vynixstudio.indevs.in/",
-            "description": "Discover Minecraft mods, modpacks, plugins, shaders, resource packs, and data packs.",
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://www.vynixstudio.indevs.in/?search={search_term_string}",
-                "query-input": "required name=search_term_string"
-            }
+            "description": "A Minecraft technology and development studio creating original products and software."
     }]
     </script>
     
@@ -181,7 +176,7 @@
                 </div>
             </div>
             <h2 class="text-xl font-extrabold tracking-tight mb-1">Vynix Studio</h2>
-            <p id="loader-status-msg" class="text-xs text-slate-400 mb-6">Loading 100,000+ Projects...</p>
+            <p id="loader-status-msg" class="text-xs text-slate-400 mb-6">Initializing studio workspace...</p>
             <div class="w-full bg-vynix-border rounded-full h-2 mb-3 overflow-hidden p-0.5">
                 <div id="loader-progress-bar" class="bg-gradient-to-r from-purple-600 to-cyan-500 h-full rounded-full transition-all duration-300 w-[20%]"></div>
             </div>
@@ -208,9 +203,9 @@
 
             <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-300" aria-label="Main Navigation">
                 <button onclick="router('home')" class="hover:text-cyan-400 transition-colors cursor-pointer">Home</button>
-                <button onclick="router('discover')" class="hover:text-cyan-400 transition-colors cursor-pointer">Discover Hub</button>
-                <button onclick="router('dashboard')" class="text-emerald-300 hover:text-emerald-200 transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs" aria-hidden="true"></i> Control Center</button>
-                <button onclick="router('publish')" class="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1.5 cursor-pointer"><i class="fa-solid fa-plus-circle text-xs" aria-hidden="true"></i> Submit Project</button>
+                <button onclick="router('products')" class="hover:text-cyan-400 transition-colors cursor-pointer">Products</button>
+                <button onclick="router('dashboard')" class="text-emerald-300 hover:text-emerald-200 transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs" aria-hidden="true"></i> Dashboard</button>
+                <button onclick="router('studio')" class="hover:text-cyan-400 transition-colors cursor-pointer">Studio</button>
                 <a href="https://discord.gg/BH5TcybwG4" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord community" class="px-3.5 py-2 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5">
                     <i class="fa-brands fa-discord text-sm" aria-hidden="true"></i> Join Discord
                 </a>
@@ -219,12 +214,7 @@
             <div class="flex items-center space-x-4">
                 <button onclick="router('dashboard')" aria-label="Open Vynix Studio Control Center" class="md:hidden w-9 h-9 rounded-lg border border-slate-700 text-emerald-300 hover:border-emerald-300/50"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i></button>
                 <div class="relative hidden sm:block">
-                    <label for="global-search-input" class="sr-only">Search mods</label>
-                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 z-10">
-                        <i class="fa-solid fa-magnifying-glass text-xs" aria-hidden="true"></i>
-                    </span>
-                    <input type="text" id="global-search-input" placeholder="Search mods..." oninput="handleGlobalSearchInput(event)"
-                        class="bg-vynix-card/90 border border-vynix-border text-xs rounded-xl pl-9 pr-4 py-2.5 w-60 focus:outline-none focus:border-cyan-500 text-slate-200 placeholder-slate-500 pointer-events-auto">
+                    <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Official studio products</span>
                 </div>
             </div>
         </div>
@@ -238,17 +228,14 @@
                         <i class="fa-solid fa-shield-halved text-cyan-400" aria-hidden="true"></i> Protected by Vynix Firewall Hub
                     </div>
                     <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto leading-tight">
-                        Explore Minecraft Mods, Plugins & Shaders
+                        Minecraft technology, built by Vynix Studio
                     </h1>
                     <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-10 drop-shadow-md">
-                        Discover 100,000+ Projects including community mods, modpacks, plugins, shaders, resource packs, and data packs with verified external Modrinth and CurseForge links.
+                        We create focused Minecraft software, products, and experiences for players, creators, and servers.
                     </p>
                     <div class="flex flex-wrap justify-center gap-4">
-                        <button onclick="router('discover')" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white shadow-lg hover:opacity-95 transition-all cursor-pointer flex items-center gap-2">
-                            <i class="fa-solid fa-compass" aria-hidden="true"></i> Discover Hub
-                        </button>
-                        <button onclick="router('publish')" class="px-8 py-3.5 rounded-xl glass-panel font-bold text-cyan-400 hover:border-cyan-500/50 transition-all cursor-pointer">
-                            <i class="fa-solid fa-upload mr-2" aria-hidden="true"></i> Submit New Project
+                        <button onclick="router('products')" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white shadow-lg hover:opacity-95 transition-all cursor-pointer flex items-center gap-2">
+                            <i class="fa-solid fa-cubes" aria-hidden="true"></i> Explore Products
                         </button>
                         <button onclick="router('dashboard')" class="px-8 py-3.5 rounded-xl bg-emerald-400/10 border border-emerald-300/30 font-bold text-emerald-200 hover:bg-emerald-400/20 transition-all cursor-pointer flex items-center gap-2">
                             <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Open Control Center
@@ -261,28 +248,8 @@
             </section>
 
             <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
-                            <i class="fa-solid fa-star text-amber-400" aria-hidden="true"></i> Featured Spotlight Showcase
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">Hand-picked featured project selected by the community</p>
-                    </div>
-                </div>
-                <div id="spotlight-showcase-container"></div>
-            </section>
-
-            <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
-                            <i class="fa-solid fa-layer-group text-cyan-400" aria-hidden="true"></i> Creator Published Projects
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">Projects uploaded and managed locally through the publishing portal</p>
-                    </div>
-                    <button onclick="router('publish')" class="text-xs font-semibold text-cyan-400 hover:underline cursor-pointer">Publish Yours +</button>
-                </div>
-                <div id="creator-published-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                <div class="flex items-center justify-between mb-8"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Official portfolio</p><h2 class="text-2xl font-bold tracking-tight mt-2">What we're building</h2><p class="text-sm text-slate-400 mt-2">Original Vynix products, maintained as one focused technology studio.</p></div></div>
+                <div id="official-product-showcase" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
             </section>
 
             <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
@@ -292,7 +259,7 @@
                     </div>
                     <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Join Our Community Hub</h2>
                     <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto mb-8">
-                        Connect with fellow creators, share your custom mods, get instant support, and join community events on our official Discord server!
+                        Follow the studio, get product support, and hear about new releases in the official Discord community.
                     </p>
                     <a href="https://discord.gg/BH5TcybwG4" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord server" class="inline-flex items-center gap-2.5 px-8 py-4 bg-[#5865F2] hover:bg-[#4752C4] font-bold text-white rounded-xl shadow-xl transition-all text-base">
                         <i class="fa-brands fa-discord text-xl" aria-hidden="true"></i> Join Discord
@@ -300,17 +267,6 @@
                 </div>
             </section>
 
-            <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-                <div class="flex items-center justify-between mb-8">
-                    <div>
-                        <h2 class="text-2xl font-bold tracking-tight flex items-center gap-2">
-                            <i class="fa-solid fa-fire text-orange-500" aria-hidden="true"></i> Trending Community Projects
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">Live fetched from Modrinth repository</p>
-                    </div>
-                </div>
-                <div id="home-trending-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            </section>
         </div>
 
         <div id="view-dashboard" class="view-section hidden py-8 lg:py-10 max-w-[1500px] mx-auto px-3 sm:px-6 relative z-20">
@@ -350,7 +306,7 @@
                         </div>
                         <div id="dashboard-metrics" class="grid grid-cols-2 xl:grid-cols-4 gap-3 mb-8"><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div></div>
                         <div id="dashboard-products" class="dashboard-panel rounded-2xl p-5 sm:p-6 mb-5 scroll-mt-6"><div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-5"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Product orbit</p><h2 class="text-xl font-bold mt-1">Technology portfolio</h2><p class="text-xs text-slate-500 mt-1">Public product state, release signals, and connected source data.</p></div><span class="self-start text-[10px] text-slate-500 font-mono border border-slate-700/70 rounded-md px-2 py-1">LIVE API</span></div><div id="dashboard-product-list" class="grid grid-cols-1 lg:grid-cols-2 gap-3"><div class="h-48 rounded-xl bg-white/5 animate-pulse"></div><div class="h-48 rounded-xl bg-white/5 animate-pulse"></div></div></div>
-                        <div id="dashboard-projects" class="dashboard-panel rounded-2xl p-5 sm:p-6 mb-5 scroll-mt-6"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Owned workspace</p><h2 class="text-xl font-bold mt-1">Projects</h2><p class="text-xs text-slate-500 mt-1">Projects published through this browser's local studio workspace.</p></div><button onclick="handleDashboardAction('project')" class="rounded-lg bg-cyan-400/10 border border-cyan-300/20 px-3 py-2 text-[10px] font-bold text-cyan-200 hover:bg-cyan-400/15">New Project</button></div><div id="dashboard-project-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"><div class="h-20 rounded-xl bg-white/5 animate-pulse"></div></div></div>
+                        <div id="dashboard-projects" class="dashboard-panel rounded-2xl p-5 sm:p-6 mb-5 scroll-mt-6"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Official workspace</p><h2 class="text-xl font-bold mt-1">Projects</h2><p class="text-xs text-slate-500 mt-1">Original Vynix projects across mods, shaders, tools, and experiences.</p></div><button onclick="handleDashboardAction('project')" class="rounded-lg bg-cyan-400/10 border border-cyan-300/20 px-3 py-2 text-[10px] font-bold text-cyan-200 hover:bg-cyan-400/15">Project access</button></div><div id="dashboard-project-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"><div class="h-20 rounded-xl bg-white/5 animate-pulse"></div></div></div>
                         <div class="grid grid-cols-1 xl:grid-cols-[1.3fr_.7fr] gap-5">
                             <div class="space-y-5">
                                 <div class="dashboard-panel rounded-2xl p-5"><div class="flex items-center justify-between mb-4"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Operator actions</p><h2 class="text-lg font-bold mt-1">Quick actions</h2></div><i class="fa-solid fa-bolt text-amber-300" aria-hidden="true"></i></div><div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><button onclick="handleDashboardAction('project')" class="text-left px-3 py-3 rounded-lg bg-cyan-400/10 border border-cyan-300/20 hover:bg-cyan-400/15 text-xs font-bold text-cyan-200 flex items-center justify-between">New Project <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button><button onclick="handleDashboardAction('product')" class="text-left px-3 py-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-bold text-slate-200 flex items-center justify-between">New Product <i class="fa-solid fa-lock text-slate-500" aria-hidden="true"></i></button><button onclick="handleDashboardAction('release')" class="text-left px-3 py-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-bold text-slate-200 flex items-center justify-between">New Release <i class="fa-solid fa-lock text-slate-500" aria-hidden="true"></i></button><button onclick="handleDashboardAction('roadmap')" class="text-left px-3 py-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-bold text-slate-200 flex items-center justify-between">Roadmap Item <i class="fa-solid fa-lock text-slate-500" aria-hidden="true"></i></button><button onclick="handleDashboardAction('announcement')" class="sm:col-span-2 text-left px-3 py-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-bold text-slate-200 flex items-center justify-between">Announcement <i class="fa-solid fa-lock text-slate-500" aria-hidden="true"></i></button></div></div>
@@ -364,10 +320,10 @@
             </div>
         </div>
 
-        <div id="view-discover" class="view-section hidden py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        <div id="removed-marketplace-view" class="hidden" aria-hidden="true">
             <div class="mb-8">
-                <h1 class="text-3xl font-extrabold tracking-tight mb-2">Discover Hub</h1>
-                <p class="text-sm text-slate-400">Browse 100,000+ Projects including mods, modpacks, plugins, shaders, resource packs, and data packs.</p>
+                <h1 class="text-3xl font-extrabold tracking-tight mb-2">Retired marketplace view</h1>
+                <p class="text-sm text-slate-400">This legacy route is no longer part of Vynix Studio.</p>
             </div>
 
             <div class="glass-panel p-6 rounded-2xl mb-8 space-y-6">
@@ -377,7 +333,7 @@
                         <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 z-10">
                             <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                         </span>
-                        <input type="text" id="discover-search-input" placeholder="Search mods, plugins, resource packs..." oninput="onSearchInputChanged(event)"
+                        <input type="text" id="discover-search-input" placeholder="Retired" oninput="onSearchInputChanged(event)"
                             class="bg-vynix-dark border border-vynix-border rounded-xl pl-11 pr-4 py-3 w-full focus:outline-none focus:border-cyan-500 text-sm text-slate-200 pointer-events-auto">
                     </div>
                 </div>
@@ -403,10 +359,10 @@
             </div>
         </div>
 
-        <div id="view-publish" class="view-section hidden py-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        <div id="removed-publishing-view" class="hidden" aria-hidden="true">
             <div class="mb-8 flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-extrabold tracking-tight mb-2">Publish Project</h1>
+                    <h1 class="text-3xl font-extrabold tracking-tight mb-2">Retired publishing view</h1>
                     <p class="text-sm text-slate-400">Upload and manage project metadata with verified external site download links.</p>
                 </div>
                 <button onclick="router('home')" class="px-4 py-2 rounded-xl glass-panel text-xs font-bold text-slate-300 hover:text-white cursor-pointer">Back</button>
@@ -455,13 +411,13 @@
                             class="w-full bg-vynix-dark border border-vynix-border rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none pointer-events-auto">
                     </div>
                     <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-cyan-500 font-bold text-white rounded-xl shadow-lg cursor-pointer">
-                        Publish Project Showcase
+                        Official products are managed by Vynix Studio.
                     </button>
                 </form>
             </div>
         </div>
 
-        <div id="view-details" class="view-section hidden py-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        <div id="removed-project-details-view" class="hidden" aria-hidden="true">
             <button onclick="window.history.back()" class="mb-6 inline-flex items-center text-xs font-semibold text-slate-400 hover:text-white cursor-pointer">
                 <i class="fa-solid fa-arrow-left mr-2" aria-hidden="true"></i> Back to Hub
             </button>
@@ -505,15 +461,8 @@
             }, 100);
         });
 
-        let userProjects = JSON.parse(localStorage.getItem('vynix_user_projects') || '[]');
+        const userProjects = [];
 
-        // Discovery State variables for 1000+ items & Load More
-        let currentCategory = 'all';
-        let currentSearchQuery = '';
-        let fetchedApiProjects = [];
-        let displayedCount = 1000;
-        let isFetchingApi = false;
-        let apiOffset = 0;
         let searchDebounceTimer = null;
 
         let currentActiveView = 'home';
@@ -538,9 +487,9 @@
             }
             if (viewName === 'dashboard') applyDashboardTheme();
             if (viewName === 'home') loadHomeData();
-            if (viewName === 'discover') initDiscoverView();
+            if (viewName === 'products' || viewName === 'studio') router('dashboard');
             if (viewName === 'dashboard') loadDashboardData();
-            if (viewName === 'details' && param) loadProjectDetails(param);
+            if (viewName === 'details' && param) showDashboardToast('Project details are reserved for official Vynix products.');
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -608,8 +557,7 @@
 
         function handleDashboardAction(action) {
             if (action === 'project') {
-                showDashboardToast('Opening the existing project publisher.', 'success');
-                setTimeout(() => router('publish'), 250);
+                showDashboardToast('Project workspace is reserved for official Vynix projects.');
                 return;
             }
             if (action === 'community') {
@@ -659,8 +607,8 @@
             const allProducts = [...products, ...plannedDashboardProducts];
             const metrics = document.getElementById('dashboard-metrics');
             metrics.innerHTML = [
-                ['fa-cubes', 'Active products', successfulProducts.length, 'Public Modrinth projects', 'cyan'],
-                ['fa-code-branch', 'Active projects', userProjects.length, userProjects.length ? 'Local publisher store' : 'No local projects yet', 'emerald'],
+                ['fa-cubes', 'Official products', successfulProducts.length + plannedDashboardProducts.length, 'Vynix product portfolio', 'cyan'],
+                ['fa-code-branch', 'Active projects', 'Vynix', 'Official studio workspace', 'emerald'],
                 ['fa-box-open', 'Releases', releases, releases ? 'Latest public versions found' : 'No version data returned', 'amber'],
                 ['fa-users', 'Community', 'Discord', 'Public community channel', 'blue']
             ].map(([icon, label, value, caption, color]) => `<div class="dashboard-panel rounded-xl p-4"><div class="flex items-center justify-between"><span class="text-[10px] dashboard-kicker uppercase font-bold">${label}</span><i class="fa-solid ${icon} text-${color}-300" aria-hidden="true"></i></div><p class="text-xl font-extrabold mt-3">${value}</p><p class="text-[10px] text-slate-500 mt-1">${caption}</p></div>`).join('');
@@ -684,15 +632,18 @@
             document.getElementById('dashboard-activity-list').innerHTML = activities.length ? activities.slice(0, 6).map(activity => `<div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-${activity.color}-400/10 text-${activity.color}-300 flex items-center justify-center shrink-0"><i class="fa-solid ${activity.icon} text-xs" aria-hidden="true"></i></div><div><p class="text-xs font-semibold text-slate-200">${activity.title}</p><p class="text-[10px] text-slate-500">${activity.detail} / connected source</p></div></div>`).join('') : '<p class="text-xs text-slate-400">No activity is available from connected sources yet.</p>';
         }
 
+        /* Legacy marketplace and publishing handlers retained outside the live application path.
         function openDownload(project, event) {
             if (event) event.stopPropagation();
-            const url = getValidUrl(project.modrinthUrl) || getValidUrl(project.curseforgeUrl);
+            const url = getValidUrl(project.modrinthUrl);
             if (url) window.open(url, '_blank', 'noopener,noreferrer');
             else alert('Official external download link unavailable.');
         }
 
         function handleProjectSubmission(event) {
             event.preventDefault();
+            showDashboardToast('Community project publishing has been retired. Vynix publishes official products only.');
+            return;
             const title = document.getElementById('pub-title').value.trim();
             const author = document.getElementById('pub-author').value.trim();
             const description = document.getElementById('pub-desc').value.trim();
@@ -715,13 +666,23 @@
             };
 
             userProjects.unshift(newProj);
-            localStorage.setItem('vynix_user_projects', JSON.stringify(userProjects));
-            alert('Project published successfully and is now live!');
+            // Retired: user-created project persistence is no longer supported.
+            alert('Project publishing is unavailable.');
             document.getElementById('submit-project-form').reset();
             router('home');
         }
 
         async function loadHomeData() {
+            const showcase = document.getElementById('official-product-showcase');
+            if (showcase) {
+                showcase.innerHTML = [
+                    ['Vynix Launcher', 'Minecraft launcher', 'Planned', 'A focused launcher experience for Vynix technology.', 'fa-rocket'],
+                    ['Vynix Forge', 'Development platform', 'Planned', 'Tools and infrastructure for building Minecraft technology.', 'fa-hammer'],
+                    ['Vynix PVP', 'Official modpack', 'Live', 'A competitive Minecraft experience maintained by Vynix Studio.', 'fa-crosshairs'],
+                    ['VynixShader', 'Official shader', 'Live', 'A visual rendering project built and maintained by Vynix Studio.', 'fa-sun']
+                ].map(([name, type, status, description, icon]) => `<article class="dashboard-product-card rounded-2xl p-5"><div class="flex items-start justify-between gap-3"><div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl bg-cyan-400/10 text-cyan-300 flex items-center justify-center"><i class="fa-solid ${icon}" aria-hidden="true"></i></div><div><h3 class="font-bold">${name}</h3><p class="text-[10px] text-slate-500 mt-1">${type}</p></div></div>${dashboardStatusBadge(status)}</div><p class="text-xs text-slate-400 leading-relaxed mt-4">${description}</p></article>`).join('');
+            }
+            return;
             const spotlightContainer = document.getElementById('spotlight-showcase-container');
             let spotlightProj = userProjects.length > 0 ? userProjects[0] : null;
 
@@ -749,10 +710,10 @@
             creatorGrid.innerHTML = userProjects.length > 0 ? userProjects.map(proj => createCardHtml(proj)).join('') : `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs col-span-full">No custom user projects published yet.</div>`;
             
             const trendingGrid = document.getElementById('home-trending-grid');
-            trendingGrid.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs col-span-full"><i class="fa-solid fa-spinner fa-spin mr-2" aria-hidden="true"></i> Loading community projects...</div>`;
+            trendingGrid.innerHTML = '';
 
             try {
-                const res = await fetch('https://api.modrinth.com/v2/search?limit=6', {
+                const res = await fetch('', {
                     headers: { 'User-Agent': 'VynixStudio/1.0.0 (contact@vynixstudio.com)' }
                 });
                 const data = await res.json();
@@ -763,7 +724,7 @@
                 }
             } catch (err) {
                 console.error("Modrinth API fetch error:", err);
-                trendingGrid.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-center text-slate-400 text-xs col-span-full">Unable to fetch live community projects at the moment. Please try again later.</div>`;
+                trendingGrid.innerHTML = '';
             }
         }
 
@@ -810,7 +771,7 @@
             }
 
             if (currentActiveView !== 'discover') {
-                router('discover');
+                router('dashboard');
             }
 
             clearTimeout(searchDebounceTimer);
@@ -848,7 +809,7 @@
                 while (accumulatedHits.length < targetCount && currentReqOffset < 1000) {
                     const facetsParam = getCategoryFacets(currentCategory);
                     const queryParam = encodeURIComponent(currentSearchQuery);
-                    let url = `https://api.modrinth.com/v2/search?query=${queryParam}&limit=${limitPerRequest}&offset=${currentReqOffset}`;
+                    let url = '';
                     if (facetsParam) {
                         url += `&facets=${encodeURIComponent(facetsParam)}`;
                     }
@@ -898,7 +859,7 @@
             try {
                 const facetsParam = getCategoryFacets(currentCategory);
                 const queryParam = encodeURIComponent(currentSearchQuery);
-                let url = `https://api.modrinth.com/v2/search?query=${queryParam}&limit=100&offset=${apiOffset}`;
+                let url = '';
                 if (facetsParam) {
                     url += `&facets=${encodeURIComponent(facetsParam)}`;
                 }
@@ -968,7 +929,7 @@
             if (combinedProjects.length > displayedCount || !isFetchingApi) {
                 loadMoreContainer.classList.remove('hidden');
                 if (loadedCountLabel) {
-                    loadedCountLabel.textContent = `Showing ${Math.min(displayedCount, combinedProjects.length)} of 100,000+ available projects`;
+                    loadedCountLabel.textContent = '';
                 }
             } else {
                 loadMoreContainer.classList.add('hidden');
@@ -1058,6 +1019,7 @@
                 `;
             }
         }
+        */
     </script>
 </body>
 </html>
