@@ -240,6 +240,9 @@
                         <button onclick="router('publish')" class="px-8 py-3.5 rounded-xl glass-panel font-bold text-cyan-400 hover:border-cyan-500/50 transition-all cursor-pointer">
                             <i class="fa-solid fa-upload mr-2" aria-hidden="true"></i> Submit New Project
                         </button>
+                        <button onclick="router('dashboard')" class="px-8 py-3.5 rounded-xl bg-emerald-400/10 border border-emerald-300/30 font-bold text-emerald-200 hover:bg-emerald-400/20 transition-all cursor-pointer flex items-center gap-2">
+                            <i class="fa-solid fa-gauge-high" aria-hidden="true"></i> Open Control Center
+                        </button>
                         <a href="https://discord.gg/BH5TcybwG4" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord community" class="px-8 py-3.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] font-bold text-white shadow-lg transition-all flex items-center gap-2">
                             <i class="fa-brands fa-discord text-lg" aria-hidden="true"></i> Join Discord
                         </a>
@@ -502,8 +505,14 @@
             { slug: 'vynix-pvp', name: 'Vynix PVP', type: 'Modpack', status: 'Live', url: 'https://modrinth.com/modpack/vynix-pvp', icon: 'fa-crosshairs', accent: 'cyan' },
             { slug: 'vynixshader', name: 'VynixShader', type: 'Shader', status: 'Live', url: 'https://modrinth.com/shader/vynixshader', icon: 'fa-sun', accent: 'amber' }
         ];
+        const plannedDashboardProducts = [
+            { name: 'Vynix Launcher', type: 'Launcher', status: 'Planned', icon: 'fa-rocket', accent: 'slate' },
+            { name: 'Vynix Forge', type: 'Developer platform', status: 'Planned', icon: 'fa-hammer', accent: 'slate' }
+        ];
         function router(viewName, param = null) {
             currentActiveView = viewName;
+            if (viewName === 'dashboard' && window.location.hash !== '#dashboard') history.replaceState(null, '', '#dashboard');
+            if (viewName !== 'dashboard' && window.location.hash === '#dashboard') history.replaceState(null, '', window.location.pathname + window.location.search);
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const targetView = document.getElementById(`view-${viewName}`);
             if (targetView) {
@@ -517,7 +526,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            router('home');
+            router(window.location.hash === '#dashboard' ? 'dashboard' : 'home');
         });
 
         function getValidUrl(urlStr) {
@@ -597,6 +606,7 @@
         function renderDashboard(products) {
             const successfulProducts = products.filter(product => !product.error && product.data);
             const releases = successfulProducts.filter(product => product.latestVersion).length;
+            const allProducts = [...products, ...plannedDashboardProducts];
             const metrics = document.getElementById('dashboard-metrics');
             metrics.innerHTML = [
                 ['fa-cubes', 'Active products', successfulProducts.length, 'Public Modrinth projects', 'cyan'],
@@ -605,10 +615,11 @@
                 ['fa-users', 'Community', 'Discord', 'Public community channel', 'blue']
             ].map(([icon, label, value, caption, color]) => `<div class="dashboard-panel rounded-xl p-4"><div class="flex items-center justify-between"><span class="text-[10px] dashboard-kicker uppercase font-bold">${label}</span><i class="fa-solid ${icon} text-${color}-300" aria-hidden="true"></i></div><p class="text-xl font-extrabold mt-3">${value}</p><p class="text-[10px] text-slate-500 mt-1">${caption}</p></div>`).join('');
 
-            document.getElementById('dashboard-product-list').innerHTML = products.map(product => {
+            document.getElementById('dashboard-product-list').innerHTML = allProducts.map(product => {
                 const data = product.data || {};
                 const version = product.latestVersion ? product.latestVersion.version_number : 'No release data';
-                return `<a href="${product.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between gap-4 p-3 rounded-xl bg-white/[.035] hover:bg-white/[.07] transition-colors group"><div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 shrink-0 rounded-lg bg-${product.accent}-400/10 text-${product.accent}-300 flex items-center justify-center"><i class="fa-solid ${product.icon}" aria-hidden="true"></i></div><div class="min-w-0"><p class="text-sm font-bold truncate group-hover:text-cyan-200">${product.name}</p><p class="text-[10px] text-slate-500">${product.type} / ${data.followers ? data.followers.toLocaleString() + ' followers' : 'Public Modrinth project'}</p></div></div><div class="text-right shrink-0">${dashboardStatusBadge(product.status)}<p class="text-[10px] text-slate-500 mt-1">${version}</p></div></a>`;
+                const content = product.url ? `<a href="${product.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between gap-4 p-3 rounded-xl bg-white/[.035] hover:bg-white/[.07] transition-colors group">` : '<div class="flex items-center justify-between gap-4 p-3 rounded-xl bg-white/[.02] opacity-80">';
+                return `${content}<div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 shrink-0 rounded-lg bg-${product.accent}-400/10 text-${product.accent}-300 flex items-center justify-center"><i class="fa-solid ${product.icon}" aria-hidden="true"></i></div><div class="min-w-0"><p class="text-sm font-bold truncate ${product.url ? 'group-hover:text-cyan-200' : ''}">${product.name}</p><p class="text-[10px] text-slate-500">${product.type} / ${data.followers ? data.followers.toLocaleString() + ' followers' : product.url ? 'Public Modrinth project' : 'Coming soon'}</p></div></div><div class="text-right shrink-0">${dashboardStatusBadge(product.status)}<p class="text-[10px] text-slate-500 mt-1">${version}</p></div>${product.url ? '</a>' : '</div>'}`;
             }).join('');
 
             const activities = successfulProducts.filter(product => product.data.updated).map(product => ({ title: `${product.name} / Public data updated`, detail: new Date(product.data.updated).toLocaleDateString(), icon: 'fa-arrows-rotate', color: 'cyan', timestamp: new Date(product.data.updated).getTime() }));
