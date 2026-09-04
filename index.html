@@ -147,10 +147,15 @@
             pointer-events: auto !important;
         }
 
-        .dashboard-shell { background: rgba(7, 9, 14, 0.72); border: 1px solid rgba(148, 163, 184, 0.14); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28); }
+        .dashboard-shell { background: rgba(7, 9, 14, 0.78); border: 1px solid rgba(148, 163, 184, 0.14); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28); position: relative; }
+        .dashboard-shell::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .26; background-image: linear-gradient(rgba(103, 232, 249, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(103, 232, 249, .04) 1px, transparent 1px); background-size: 42px 42px; mask-image: linear-gradient(to bottom, black, transparent 75%); }
         .dashboard-nav { background: rgba(10, 13, 20, 0.88); border-right: 1px solid rgba(148, 163, 184, 0.12); }
         .dashboard-panel { background: rgba(18, 22, 31, 0.76); border: 1px solid rgba(148, 163, 184, 0.13); box-shadow: 0 14px 36px rgba(0, 0, 0, 0.16); }
         .dashboard-panel:hover { border-color: rgba(103, 232, 249, 0.28); }
+        .dashboard-content-layer { position: relative; z-index: 1; }
+        .dashboard-side-link { transition: color .18s ease, background .18s ease, transform .18s ease; }
+        .dashboard-side-link:hover { transform: translateX(2px); }
+        .dashboard-side-link.is-active { color: #cffafe; background: rgba(34, 211, 238, .1); box-shadow: inset 2px 0 0 #22d3ee; }
         .dashboard-kicker { color: #8290a8; letter-spacing: .14em; }
         .status-dot { box-shadow: 0 0 0 4px rgba(16, 185, 129, .08); }
         .dashboard-reveal { animation: dashboard-reveal .5s ease both; }
@@ -316,10 +321,10 @@
                         </div>
                         <nav class="py-5 space-y-1" aria-label="Control center navigation">
                             <p class="dashboard-kicker text-[9px] font-bold uppercase px-3 pb-2">Workspace</p>
-                            <button onclick="focusDashboardSection('dashboard-overview')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-cyan-200 bg-cyan-400/10 flex items-center gap-3"><i class="fa-solid fa-grid-2 w-4 text-center" aria-hidden="true"></i> Overview</button>
-                            <button onclick="focusDashboardSection('dashboard-products')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-cubes w-4 text-center" aria-hidden="true"></i> Products</button>
-                            <button onclick="focusDashboardSection('dashboard-roadmap')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-route w-4 text-center" aria-hidden="true"></i> Roadmap</button>
-                            <button onclick="focusDashboardSection('dashboard-activity')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-wave-square w-4 text-center" aria-hidden="true"></i> Activity</button>
+                            <button onclick="focusDashboardSection('dashboard-overview', this)" class="dashboard-side-link is-active w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center gap-3"><i class="fa-solid fa-grid-2 w-4 text-center" aria-hidden="true"></i> Overview</button>
+                            <button onclick="focusDashboardSection('dashboard-products', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-cubes w-4 text-center" aria-hidden="true"></i> Products</button>
+                            <button onclick="focusDashboardSection('dashboard-roadmap', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-route w-4 text-center" aria-hidden="true"></i> Roadmap</button>
+                            <button onclick="focusDashboardSection('dashboard-activity', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-wave-square w-4 text-center" aria-hidden="true"></i> Activity</button>
                             <button onclick="handleDashboardAction('development')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-code w-4 text-center" aria-hidden="true"></i> Development</button>
                             <button onclick="handleDashboardAction('releases')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-box-open w-4 text-center" aria-hidden="true"></i> Releases</button>
                             <button onclick="handleDashboardAction('analytics')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-chart-line w-4 text-center" aria-hidden="true"></i> Analytics</button>
@@ -331,7 +336,7 @@
                         <div class="mt-auto dashboard-panel rounded-xl p-3"><p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Environment</p><div class="flex items-center gap-2 mt-2"><span class="status-dot w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-xs text-slate-300">Public data connected</span></div><p class="text-[10px] text-slate-500 mt-2 leading-relaxed">Metrics are sourced from Modrinth and this browser's local project store.</p></div>
                     </aside>
 
-                    <section class="p-5 sm:p-7 lg:p-9 bg-gradient-to-br from-[#10151f]/80 via-transparent to-cyan-950/10">
+                    <section class="dashboard-content-layer p-5 sm:p-7 lg:p-9 bg-gradient-to-br from-[#10151f]/80 via-transparent to-cyan-950/10">
                         <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-8 pb-5 border-b border-slate-700/30">
                             <div class="flex items-center gap-3"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Studio / Overview</p><p class="text-sm font-bold text-slate-200 mt-1">Control Center</p></div><span class="hidden sm:inline text-slate-700">/</span><span class="hidden sm:inline text-xs text-slate-500">Public workspace</span></div>
                             <div class="flex items-center gap-2"><label for="dashboard-search" class="sr-only">Search studio</label><div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-[11px] text-slate-500" aria-hidden="true"></i><input id="dashboard-search" type="search" placeholder="Search studio" oninput="searchDashboard(event)" class="w-full sm:w-52 rounded-lg border border-slate-700/70 bg-black/20 pl-8 pr-3 py-2 text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-400/50 focus:outline-none"></div><button onclick="showDashboardToast('Notifications are not connected in this public build.')" aria-label="View notifications" class="w-8 h-8 rounded-lg border border-slate-700/70 text-slate-400 hover:text-white hover:border-cyan-400/50"><i class="fa-regular fa-bell text-xs" aria-hidden="true"></i></button><button onclick="handleDashboardAction('settings')" aria-label="Open account menu" class="w-8 h-8 rounded-lg bg-cyan-400/15 text-cyan-200 font-bold text-xs">N</button></div>
@@ -564,8 +569,10 @@
             window.dashboardToastTimer = setTimeout(() => toast.remove(), 3600);
         }
 
-        function focusDashboardSection(id) {
+        function focusDashboardSection(id, trigger) {
             const section = document.getElementById(id);
+            document.querySelectorAll('.dashboard-side-link').forEach(link => link.classList.remove('is-active'));
+            if (trigger) trigger.classList.add('is-active');
             if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
