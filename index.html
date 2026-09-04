@@ -477,8 +477,8 @@
         ];
         function router(viewName, param = null) {
             currentActiveView = viewName;
-            if (viewName === 'dashboard' && window.location.hash !== '#dashboard') history.replaceState(null, '', '#dashboard');
-            if (viewName !== 'dashboard' && window.location.hash === '#dashboard') history.replaceState(null, '', window.location.pathname + window.location.search);
+            if (viewName === 'dashboard' && window.location.pathname !== '/dashboard/') history.replaceState(null, '', '/dashboard/');
+            if (viewName !== 'dashboard' && window.location.pathname === '/dashboard/') history.replaceState(null, '', '/');
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const targetView = document.getElementById(`view-${viewName}`);
             if (targetView) {
@@ -493,7 +493,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            router(window.location.hash === '#dashboard' ? 'dashboard' : 'home');
+            router(new URLSearchParams(window.location.search).has('dashboard') || window.location.pathname === '/dashboard/' ? 'dashboard' : 'home');
         });
 
         function getValidUrl(urlStr) {
