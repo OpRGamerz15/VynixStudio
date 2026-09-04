@@ -329,9 +329,13 @@
                     </aside>
 
                     <section class="p-5 sm:p-7 lg:p-9 bg-gradient-to-br from-[#10151f]/80 via-transparent to-cyan-950/10">
+                        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4 mb-8 pb-5 border-b border-slate-700/30">
+                            <div class="flex items-center gap-3"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Studio / Overview</p><p class="text-sm font-bold text-slate-200 mt-1">Control Center</p></div><span class="hidden sm:inline text-slate-700">/</span><span class="hidden sm:inline text-xs text-slate-500">Public workspace</span></div>
+                            <div class="flex items-center gap-2"><label for="dashboard-search" class="sr-only">Search studio</label><div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-[11px] text-slate-500" aria-hidden="true"></i><input id="dashboard-search" type="search" placeholder="Search studio" oninput="searchDashboard(event)" class="w-full sm:w-52 rounded-lg border border-slate-700/70 bg-black/20 pl-8 pr-3 py-2 text-xs text-slate-200 placeholder-slate-600 focus:border-cyan-400/50 focus:outline-none"></div><button onclick="showDashboardToast('Notifications are not connected in this public build.')" aria-label="View notifications" class="w-8 h-8 rounded-lg border border-slate-700/70 text-slate-400 hover:text-white hover:border-cyan-400/50"><i class="fa-regular fa-bell text-xs" aria-hidden="true"></i></button><button onclick="handleDashboardAction('settings')" aria-label="Open account menu" class="w-8 h-8 rounded-lg bg-cyan-400/15 text-cyan-200 font-bold text-xs">N</button></div>
+                        </div>
                         <div id="dashboard-overview" class="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8">
-                            <div><p class="dashboard-kicker text-[10px] font-bold uppercase mb-3">Command view / public data</p><h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Welcome back to <span class="text-cyan-300">Vynix Studio.</span></h1><p class="text-sm text-slate-400 mt-2">A live readout of the studio's public products and local workspace.</p></div>
-                            <button onclick="router('home')" class="self-start lg:self-auto px-3.5 py-2.5 rounded-lg border border-slate-700/70 text-xs font-bold text-slate-300 hover:text-white hover:border-cyan-400/50 transition-colors flex items-center gap-2"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Public site</button>
+                            <div><p class="dashboard-kicker text-[10px] font-bold uppercase mb-3">Build. Create. Innovate.</p><h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Welcome back to <span class="text-cyan-300">Vynix Studio.</span></h1><p class="text-sm text-slate-400 mt-2">Your Minecraft technology workspace.</p></div>
+                            <div class="flex items-center gap-2 self-start lg:self-auto rounded-lg border border-emerald-400/20 bg-emerald-400/5 px-3 py-2"><span class="status-dot w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-xs font-bold text-emerald-200">Studio Operational</span></div>
                         </div>
                         <div id="dashboard-metrics" class="grid grid-cols-2 xl:grid-cols-4 gap-3 mb-8"><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div><div class="dashboard-panel rounded-xl p-4 animate-pulse h-[104px]"></div></div>
                         <div class="grid grid-cols-1 xl:grid-cols-[1.3fr_.7fr] gap-5">
@@ -559,6 +563,13 @@
         function focusDashboardSection(id) {
             const section = document.getElementById(id);
             if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function searchDashboard(event) {
+            const query = event.target.value.trim().toLowerCase();
+            document.querySelectorAll('#dashboard-product-list > a, #dashboard-product-list > div').forEach(item => {
+                item.classList.toggle('hidden', query && !item.textContent.toLowerCase().includes(query));
+            });
         }
 
         function handleDashboardAction(action) {
