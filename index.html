@@ -10,6 +10,8 @@
     <meta name="author" content="NovaGamer15">
     <link rel="canonical" href="https://www.vynixstudio.indevs.in/">
     <meta name="theme-color" content="#0a0b10">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.modrinth.com; object-src 'none'; base-uri 'self'; form-action 'self';">
 
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
@@ -29,8 +31,8 @@
     [{
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Vynix Studio",
-    "url": "https://www.vynixstudio.indevs.in/",
+            "name": "Vynix Studio",
+            "url": "https://www.vynixstudio.indevs.in/",
       "logo": "https://i.pinimg.com/originals/b5/70/4e/b5704ec1057c3d1000b2182054ff8e7b.jpg",
       "founder": {
         "@type": "Person",
@@ -504,6 +506,33 @@
             } catch { return null; }
         }
 
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>'"]/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[character]));
+        }
+
+        function formatNumber(value) {
+            const number = Number(value);
+            return Number.isFinite(number) ? number.toLocaleString() : 'Unavailable';
+        }
+
+        async function fetchJson(url, timeoutMs = 8000) {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), timeoutMs);
+            try {
+                const response = await fetch(url, {
+                    signal: controller.signal,
+                    headers: { Accept: 'application/json' },
+                    cache: 'no-store'
+                });
+                if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+                return await response.json();
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
+
         function dashboardStatusBadge(status) {
             const styles = { Live: 'bg-emerald-400/10 text-emerald-300 border-emerald-300/20', 'In Development': 'bg-blue-400/10 text-blue-300 border-blue-300/20', Beta: 'bg-yellow-400/10 text-yellow-300 border-yellow-300/20', Testing: 'bg-orange-400/10 text-orange-300 border-orange-300/20', Planned: 'bg-slate-400/10 text-slate-300 border-slate-300/20', Paused: 'bg-red-400/10 text-red-300 border-red-300/20' };
             return `<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md border text-[10px] font-bold ${styles[status] || styles.Planned}"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>${status}</span>`;
@@ -574,11 +603,8 @@
             const activityList = document.getElementById('dashboard-activity-list');
             dashboardDataPromise = Promise.all(dashboardProducts.map(async product => {
                 try {
-                    const response = await fetch(`https://api.modrinth.com/v2/project/${product.slug}`);
-                    if (!response.ok) throw new Error(`Project request failed: ${response.status}`);
-                    const data = await response.json();
-                    const versionsResponse = await fetch(`https://api.modrinth.com/v2/project/${product.slug}/version?limit=1`);
-                    const versions = versionsResponse.ok ? await versionsResponse.json() : [];
+                    const data = await fetchJson(`https://api.modrinth.com/v2/project/${encodeURIComponent(product.slug)}`);
+                    const versions = await fetchJson(`https://api.modrinth.com/v2/project/${encodeURIComponent(product.slug)}/version?limit=1`);
                     return { ...product, data, latestVersion: versions[0] || null };
                 } catch (error) {
                     console.error(`Dashboard data error for ${product.slug}:`, error);
@@ -616,11 +642,11 @@
             document.getElementById('dashboard-product-list').innerHTML = allProducts.map(product => {
                 const data = product.data || {};
                 const version = product.latestVersion ? product.latestVersion.version_number : 'No release data';
-                const description = data.description || (product.status === 'Planned' ? 'A future Vynix Studio technology product.' : 'Unable to load product description.');
-                const metadata = product.url && data.downloads !== undefined ? `${data.downloads.toLocaleString()} downloads / ${data.followers.toLocaleString()} followers` : product.status === 'Planned' ? 'Product brief / coming soon' : 'Unable to load Modrinth data';
-                const support = product.latestVersion && product.latestVersion.game_versions ? product.latestVersion.game_versions.slice(0, 3).join(', ') : '';
+                const description = escapeHtml(data.description || (product.status === 'Planned' ? 'A future Vynix Studio technology product.' : 'Unable to load product description.'));
+                const metadata = product.url && data.downloads !== undefined ? `${formatNumber(data.downloads)} downloads / ${formatNumber(data.followers)} followers` : product.status === 'Planned' ? 'Product brief / coming soon' : 'Unable to load Modrinth data';
+                const support = product.latestVersion && Array.isArray(product.latestVersion.game_versions) ? product.latestVersion.game_versions.slice(0, 3).map(escapeHtml).join(', ') : '';
                 const content = product.url ? `<article class="dashboard-product-card rounded-xl p-5 group">` : '<article class="dashboard-product-card rounded-xl p-5 opacity-85">';
-                return `${content}<div class="flex items-start justify-between gap-3"><div class="flex items-center gap-3 min-w-0"><div class="w-11 h-11 shrink-0 rounded-xl bg-${product.accent}-400/10 text-${product.accent}-300 flex items-center justify-center"><i class="fa-solid ${product.icon}" aria-hidden="true"></i></div><div class="min-w-0"><h3 class="font-bold truncate ${product.url ? 'group-hover:text-cyan-200' : ''}">${product.name}</h3><p class="text-[10px] text-slate-500 mt-1">${product.type} / ${product.url ? 'Modrinth' : 'Vynix Studio'}</p></div></div>${dashboardStatusBadge(product.status)}</div><p class="text-xs text-slate-400 leading-relaxed mt-4 min-h-[36px]">${description}</p><div class="flex flex-wrap gap-x-3 gap-y-1 mt-4 text-[10px] text-slate-500"><span>${metadata}</span>${support ? `<span>MC ${support}</span>` : ''}</div><div class="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-slate-700/40"><span class="text-[10px] text-slate-500">${product.latestVersion ? `Updated ${new Date(product.data.updated).toLocaleDateString()}` : version}</span>${product.url ? `<a href="${product.url}" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-cyan-300/20 px-3 py-2 text-[10px] font-bold text-cyan-200 hover:bg-cyan-300/10">Open product <i class="fa-solid fa-arrow-up-right-from-square ml-1" aria-hidden="true"></i></a>` : '<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Coming soon</span>'}</div></article>`;
+                return `${content}<div class="flex items-start justify-between gap-3"><div class="flex items-center gap-3 min-w-0"><div class="w-11 h-11 shrink-0 rounded-xl bg-${escapeHtml(product.accent)}-400/10 text-${escapeHtml(product.accent)}-300 flex items-center justify-center"><i class="fa-solid ${escapeHtml(product.icon)}" aria-hidden="true"></i></div><div class="min-w-0"><h3 class="font-bold truncate ${product.url ? 'group-hover:text-cyan-200' : ''}">${escapeHtml(product.name)}</h3><p class="text-[10px] text-slate-500 mt-1">${escapeHtml(product.type)} / ${product.url ? 'Modrinth' : 'Vynix Studio'}</p></div></div>${dashboardStatusBadge(product.status)}</div><p class="text-xs text-slate-400 leading-relaxed mt-4 min-h-[36px]">${description}</p><div class="flex flex-wrap gap-x-3 gap-y-1 mt-4 text-[10px] text-slate-500"><span>${metadata}</span>${support ? `<span>MC ${support}</span>` : ''}</div><div class="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-slate-700/40"><span class="text-[10px] text-slate-500">${product.latestVersion ? `Updated ${new Date(product.data.updated).toLocaleDateString()}` : escapeHtml(version)}</span>${product.url ? `<a href="${escapeHtml(product.url)}" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-cyan-300/20 px-3 py-2 text-[10px] font-bold text-cyan-200 hover:bg-cyan-300/10">Open product <i class="fa-solid fa-arrow-up-right-from-square ml-1" aria-hidden="true"></i></a>` : '<span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Coming soon</span>'}</div></article>`;
             }).join('');
 
             const projectList = document.getElementById('dashboard-project-list');

@@ -22,7 +22,13 @@ The official website and control center for **Vynix Studio**, a Minecraft techno
 * **Vanilla JavaScript**
 * **Fetch API** for the two official Modrinth product integrations
 
-No build tools or backend are required.
+No build tools or backend are required for the public static site. The Control Center is intentionally read-only; it is not an authenticated server-management panel.
+
+## Production and security boundary
+
+This repository does not contain a backend, database, authentication flow, server-control API, file manager, or rate limiter. Those features cannot be made genuinely functional or secure in client-only HTML. See [SECURITY.md](SECURITY.md) before connecting a real Control Panel backend.
+
+The site uses bounded, timeout-controlled Modrinth requests and escapes remote values before rendering them. Volumetric DDoS protection, trusted proxy handling, authentication, authorization, abuse limits, security headers, and private server workers must be configured in the CDN/WAF, reverse proxy, and backend layers described in [SECURITY.md](SECURITY.md).
 
 ---
 
