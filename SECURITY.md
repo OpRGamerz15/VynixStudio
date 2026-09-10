@@ -2,7 +2,9 @@
 
 ## Current application
 
-Vynix Studio Web is a static GitHub Pages site. It has no server-side runtime, database, authentication system, Control Panel API, file upload path, session store, or server-management capability. The dashboard is a public read-only presentation of official product metadata fetched from Modrinth.
+Vynix Studio Web is a static GitHub Pages site. It has no server-side runtime, database, authentication system, Control Panel API, file upload path, session store, or server-management capability. The dashboard presents official product metadata and the developer workspace stores optional records only in the current browser's local storage.
+
+Local storage is not private, authenticated, synchronized, or suitable for production administration. Do not store secrets or sensitive studio data there.
 
 Do not add passwords, API keys, tokens, database credentials, or private control-plane URLs to this repository. Browser storage is not an authentication mechanism.
 
