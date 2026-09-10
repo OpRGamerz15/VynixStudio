@@ -11,7 +11,7 @@
     <link rel="canonical" href="https://www.vynixstudio.indevs.in/">
     <meta name="theme-color" content="#0a0b10">
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.modrinth.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.supportkori.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.modrinth.com; object-src 'none'; base-uri 'self'; form-action 'self';">
 
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
@@ -53,6 +53,13 @@
     </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        src="https://www.supportkori.com/widget.js"
+        data-id="vynixstudio"
+        data-message="Support Vynix Studio"
+        data-color="#FFDD00"
+        data-position="right"
+    ></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -206,6 +213,7 @@
             <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-300" aria-label="Main Navigation">
                 <button onclick="router('home')" class="hover:text-cyan-400 transition-colors cursor-pointer">Home</button>
                 <button onclick="router('products')" class="hover:text-cyan-400 transition-colors cursor-pointer">Products</button>
+                <button onclick="router('shop')" class="hover:text-yellow-300 transition-colors cursor-pointer">Shop</button>
                 <button onclick="router('dashboard')" class="text-emerald-300 hover:text-emerald-200 transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs" aria-hidden="true"></i> Dashboard</button>
                 <button onclick="router('studio')" class="hover:text-cyan-400 transition-colors cursor-pointer">Studio</button>
                 <a href="https://discord.gg/BH5TcybwG4" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord community" class="px-3.5 py-2 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5">
@@ -286,13 +294,13 @@
                             <button onclick="focusDashboardSection('dashboard-projects', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-diagram-project w-4 text-center" aria-hidden="true"></i> Projects</button>
                             <button onclick="focusDashboardSection('dashboard-roadmap', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-route w-4 text-center" aria-hidden="true"></i> Roadmap</button>
                             <button onclick="focusDashboardSection('dashboard-activity', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-wave-square w-4 text-center" aria-hidden="true"></i> Activity</button>
-                            <button onclick="handleDashboardAction('development')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-code w-4 text-center" aria-hidden="true"></i> Development</button>
-                            <button onclick="handleDashboardAction('releases')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-box-open w-4 text-center" aria-hidden="true"></i> Releases</button>
-                            <button onclick="handleDashboardAction('analytics')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-chart-line w-4 text-center" aria-hidden="true"></i> Analytics</button>
+                            <button onclick="router('development')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-code w-4 text-center" aria-hidden="true"></i> Development</button>
+                            <button onclick="router('releases')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-box-open w-4 text-center" aria-hidden="true"></i> Releases</button>
+                            <button onclick="router('analytics')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-chart-line w-4 text-center" aria-hidden="true"></i> Analytics</button>
                             <p class="dashboard-kicker text-[9px] font-bold uppercase px-3 pt-5 pb-2">Studio</p>
                             <button onclick="handleDashboardAction('community')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-brands fa-discord w-4 text-center" aria-hidden="true"></i> Community</button>
-                            <button onclick="handleDashboardAction('studio')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-building w-4 text-center" aria-hidden="true"></i> Studio</button>
-                            <button onclick="handleDashboardAction('settings')" class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-sliders w-4 text-center" aria-hidden="true"></i> Settings</button>
+                            <button onclick="router('studio')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-building w-4 text-center" aria-hidden="true"></i> Studio</button>
+                            <button onclick="router('settings')" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-sliders w-4 text-center" aria-hidden="true"></i> Settings</button>
                         </nav>
                         <div class="mt-auto dashboard-panel rounded-xl p-3"><p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Environment</p><div class="flex items-center gap-2 mt-2"><span class="status-dot w-2 h-2 rounded-full bg-emerald-400"></span><span class="text-xs text-slate-300">Public data connected</span></div><p class="text-[10px] text-slate-500 mt-2 leading-relaxed">Metrics are sourced from Modrinth and this browser's local project store.</p><button onclick="toggleDashboardTheme()" class="mt-3 w-full rounded-lg border border-slate-700/70 px-3 py-2 text-left text-[10px] font-bold text-slate-400 hover:text-white hover:border-cyan-400/40"><i id="dashboard-theme-icon" class="fa-solid fa-moon mr-2" aria-hidden="true"></i><span id="dashboard-theme-label">Focus appearance</span></button></div>
                     </aside>
@@ -320,6 +328,25 @@
                     </section>
                 </div>
             </div>
+        </div>
+
+        <div id="view-development" class="view-section hidden py-8 lg:py-10 max-w-[1500px] mx-auto px-3 sm:px-6 relative z-20"></div>
+        <div id="view-releases" class="view-section hidden py-8 lg:py-10 max-w-[1500px] mx-auto px-3 sm:px-6 relative z-20"></div>
+        <div id="view-analytics" class="view-section hidden py-8 lg:py-10 max-w-[1500px] mx-auto px-3 sm:px-6 relative z-20"></div>
+        <div id="view-studio" class="view-section hidden py-8 lg:py-10 max-w-[1500px] mx-auto px-3 sm:px-6 relative z-20"></div>
+        <div id="view-settings" class="view-section hidden py-8 lg:py-10 max-w-[1500px] mx-auto px-3 sm:px-6 relative z-20"></div>
+        <div id="view-shop" class="view-section hidden py-12 lg:py-20 max-w-5xl mx-auto px-4 sm:px-6 relative z-20">
+            <section class="dashboard-shell rounded-[28px] p-7 sm:p-10 dashboard-reveal">
+                <div class="max-w-2xl">
+                    <p class="dashboard-kicker text-[10px] font-bold uppercase">Official storefront</p>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2">Vynix Studio Shop</h1>
+                    <p class="text-slate-300 mt-4 leading-relaxed">Products and purchases are managed by the official SupportKori eShop. Vynix Studio does not maintain a separate product catalog or checkout.</p>
+                    <a href="https://www.supportkori.com/vynixstudio/eshop" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 mt-8 rounded-xl bg-[#FFDD00] px-5 py-3 text-sm font-extrabold text-black shadow-lg shadow-yellow-500/10 hover:bg-yellow-300 transition-colors">
+                        Open official SupportKori eShop <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+                    <p class="text-xs text-slate-500 mt-5">The current SupportKori storefront is the source of truth for product names, prices, availability, descriptions, images, and checkout.</p>
+                </div>
+            </section>
         </div>
 
         <div id="removed-marketplace-view" class="hidden" aria-hidden="true">
@@ -477,10 +504,12 @@
             { name: 'Vynix Launcher', type: 'Launcher', status: 'Planned', icon: 'fa-rocket', accent: 'slate' },
             { name: 'Vynix Forge', type: 'Developer platform', status: 'Planned', icon: 'fa-hammer', accent: 'slate' }
         ];
-        function router(viewName, param = null) {
+        const routePaths = { home: '/', dashboard: '/dashboard/', development: '/development/', releases: '/releases/', analytics: '/analytics/', studio: '/studio/', settings: '/settings/', shop: '/shop/' };
+
+        function router(viewName, param = null, options = {}) {
             currentActiveView = viewName;
-            if (viewName === 'dashboard' && window.location.pathname !== '/dashboard/') history.replaceState(null, '', '/dashboard/');
-            if (viewName !== 'dashboard' && window.location.pathname === '/dashboard/') history.replaceState(null, '', '/');
+            const routePath = routePaths[viewName] || routePaths.home;
+            if (!options.silent && window.location.pathname !== routePath) history.pushState({ view: viewName }, '', routePath);
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const targetView = document.getElementById(`view-${viewName}`);
             if (targetView) {
@@ -489,14 +518,24 @@
             }
             if (viewName === 'dashboard') applyDashboardTheme();
             if (viewName === 'home') loadHomeData();
-            if (viewName === 'products' || viewName === 'studio') router('dashboard');
+            if (viewName === 'products') router('dashboard');
             if (viewName === 'dashboard') loadDashboardData();
+            if (['development', 'releases', 'analytics', 'studio', 'settings'].includes(viewName)) renderWorkspaceRoute(viewName);
             if (viewName === 'details' && param) showDashboardToast('Project details are reserved for official Vynix products.');
         }
 
+        function routeFromLocation() {
+            const pathname = window.location.pathname.replace(/\/$/, '') || '/';
+            const requestedRoute = new URLSearchParams(window.location.search).get('route');
+            if (requestedRoute && routePaths[requestedRoute]) return requestedRoute;
+            if (pathname === '/dashboard' || new URLSearchParams(window.location.search).has('dashboard')) return 'dashboard';
+            return Object.keys(routePaths).find(route => route !== 'home' && routePaths[route].replace(/\/$/, '') === pathname) || 'home';
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
-            router(new URLSearchParams(window.location.search).has('dashboard') || window.location.pathname === '/dashboard/' ? 'dashboard' : 'home');
+            router(routeFromLocation(), null, { silent: true });
         });
+        window.addEventListener('popstate', () => router(routeFromLocation(), null, { silent: true }));
 
         function getValidUrl(urlStr) {
             if (!urlStr || typeof urlStr !== 'string') return null;
@@ -595,6 +634,104 @@
             }
             const labels = { product: 'Product creation needs a connected studio backend.', release: 'Release creation needs a connected release pipeline.', releases: 'Release management needs a connected release pipeline.', roadmap: 'Roadmap editing is not connected to a backend yet.', announcement: 'Announcements require a connected community service.', development: 'Build tracking is not connected to a development backend.', analytics: 'No additional analytics source is connected yet.', studio: 'Studio settings are unavailable in this public-only build.', settings: 'Account settings are unavailable in this public-only build.' };
             showDashboardToast(labels[action] || 'This control is not connected yet.');
+        }
+
+        let workspaceDataPromise = null;
+
+        function workspaceLoading(title) {
+            return `<div class="dashboard-shell rounded-[28px] p-8 sm:p-10 dashboard-reveal"><p class="dashboard-kicker text-[10px] font-bold uppercase">Vynix Studio</p><h1 class="text-3xl font-extrabold mt-2">${title}</h1><div class="mt-8 h-24 rounded-xl bg-white/5 animate-pulse"></div></div>`;
+        }
+
+        function workspaceError(viewName, error) {
+            console.error(`${viewName} data error:`, error);
+            return `<div class="dashboard-shell rounded-[28px] p-8 sm:p-10"><div class="rounded-xl border border-red-400/20 bg-red-400/5 p-6"><p class="text-sm font-semibold text-red-100">Live data could not be loaded.</p><p class="text-xs text-slate-400 mt-2">No replacement statistics are shown. Check the public data source and try again.</p><button onclick="retryWorkspaceRoute('${viewName}')" class="mt-4 rounded-lg border border-red-300/20 px-3 py-2 text-xs font-bold text-red-200">Retry</button></div></div>`;
+        }
+
+        function loadWorkspaceData() {
+            if (workspaceDataPromise) return workspaceDataPromise;
+            workspaceDataPromise = Promise.all(dashboardProducts.map(async product => {
+                const data = await fetchJson(`https://api.modrinth.com/v2/project/${encodeURIComponent(product.slug)}`);
+                const versions = await fetchJson(`https://api.modrinth.com/v2/project/${encodeURIComponent(product.slug)}/version?limit=20`);
+                return { ...product, data, versions: Array.isArray(versions) ? versions : [] };
+            }));
+            return workspaceDataPromise;
+        }
+
+        function retryWorkspaceRoute(viewName) {
+            workspaceDataPromise = null;
+            renderWorkspaceRoute(viewName);
+        }
+
+        function workspaceShell(kicker, title, body) {
+            return `<div class="dashboard-shell rounded-[28px] p-5 sm:p-7 lg:p-9 dashboard-reveal"><div class="flex items-start justify-between gap-4 mb-8 pb-5 border-b border-slate-700/30"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">${kicker}</p><h1 class="text-3xl font-extrabold mt-2">${title}</h1></div><button onclick="router('dashboard')" class="rounded-lg border border-slate-700/70 px-3 py-2 text-xs font-bold text-slate-300 hover:text-white">Control Center</button></div>${body}</div>`;
+        }
+
+        function renderWorkspaceRoute(viewName) {
+            const container = document.getElementById(`view-${viewName}`);
+            if (!container) return;
+            const titles = { development: 'Development', releases: 'Releases', analytics: 'Analytics' };
+            if (viewName === 'settings') {
+                const settings = JSON.parse(localStorage.getItem('vynix_settings') || '{}');
+                container.innerHTML = workspaceShell('Studio / Preferences', 'Settings', `<form onsubmit="saveSettings(event)" class="max-w-2xl space-y-5"><label class="flex items-center justify-between gap-4 rounded-xl border border-slate-700/60 p-4"><span><span class="block text-sm font-bold">Quiet dashboard appearance</span><span class="block text-xs text-slate-500 mt-1">Reduce grid and panel contrast on this device.</span></span><input name="quiet" type="checkbox" class="h-5 w-5 accent-cyan-400" ${settings.quiet ? 'checked' : ''}></label><label class="block rounded-xl border border-slate-700/60 p-4"><span class="block text-sm font-bold">Workspace label</span><input name="label" value="${escapeHtml(settings.label || 'Public workspace')}" maxlength="60" class="mt-3 w-full rounded-lg border border-slate-700 bg-black/20 px-3 py-2 text-sm text-slate-200"></label><div class="flex items-center gap-3"><button class="rounded-lg bg-cyan-400/15 border border-cyan-300/30 px-4 py-2 text-xs font-bold text-cyan-100" type="submit">Save settings</button><p id="settings-status" class="text-xs text-slate-400" aria-live="polite"></p></div></form>`);
+                return;
+            }
+            if (viewName === 'studio') {
+                container.innerHTML = workspaceShell('Studio / Tools', 'Studio', `<div class="grid grid-cols-1 md:grid-cols-2 gap-4"><button onclick="refreshWorkspaceData()" class="dashboard-panel rounded-xl p-5 text-left"><i class="fa-solid fa-arrows-rotate text-cyan-300"></i><h2 class="font-bold mt-4">Refresh live data</h2><p class="text-xs text-slate-500 mt-2">Reload the connected Modrinth product source.</p></button><button onclick="copyStudioSummary()" class="dashboard-panel rounded-xl p-5 text-left"><i class="fa-solid fa-copy text-emerald-300"></i><h2 class="font-bold mt-4">Copy product summary</h2><p class="text-xs text-slate-500 mt-2">Copy the current public product list to the clipboard.</p></button></div><p id="studio-status" class="text-xs text-slate-400 mt-5" aria-live="polite">Public tools only. Private build actions require a backend.</p>`);
+                return;
+            }
+            container.innerHTML = workspaceLoading(titles[viewName]);
+            loadWorkspaceData().then(products => {
+                const available = products.filter(product => product.data);
+                if (viewName === 'development') renderDevelopment(container, available);
+                if (viewName === 'releases') renderReleases(container, available);
+                if (viewName === 'analytics') renderAnalytics(container, available);
+            }).catch(error => { container.innerHTML = workspaceError(viewName, error); });
+        }
+
+        function renderDevelopment(container, products) {
+            const body = products.length ? `<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">${products.map(product => `<article class="dashboard-panel rounded-xl p-5"><div class="flex items-center justify-between gap-3"><h2 class="font-bold">${escapeHtml(product.name)}</h2>${dashboardStatusBadge(product.status)}</div><p class="text-xs text-slate-400 mt-3">${escapeHtml(product.data.description || 'No project description returned.')}</p><div class="mt-5 flex flex-wrap gap-3 text-xs text-slate-500"><span>${formatNumber(product.data.downloads)} downloads</span><span>${formatNumber(product.data.followers)} followers</span><span>${product.versions.length} public versions</span></div><a href="${escapeHtml(product.url)}" target="_blank" rel="noopener noreferrer" class="inline-flex mt-5 rounded-lg border border-cyan-300/20 px-3 py-2 text-xs font-bold text-cyan-200">Open project</a></article>`).join('')}</div>` : '<p class="text-sm text-slate-400">No development projects were returned by the connected public source.</p>';
+            container.innerHTML = workspaceShell('Workspace / Development', 'Development', body);
+        }
+
+        function renderReleases(container, products) {
+            const releases = products.flatMap(product => product.versions.map(version => ({ product, version }))).sort((a, b) => new Date(b.version.date_published) - new Date(a.version.date_published));
+            const body = releases.length ? `<div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="text-[10px] uppercase text-slate-500"><tr><th class="pb-3">Product</th><th class="pb-3">Version</th><th class="pb-3">Published</th><th class="pb-3">Channels</th></tr></thead><tbody>${releases.map(({ product, version }) => `<tr class="border-t border-slate-700/40"><td class="py-4 font-semibold">${escapeHtml(product.name)}</td><td class="py-4 text-cyan-200">${escapeHtml(version.version_number)}</td><td class="py-4 text-slate-400">${new Date(version.date_published).toLocaleDateString()}</td><td class="py-4 text-slate-400">${escapeHtml((version.game_versions || []).slice(0, 3).join(', ') || 'Public')}</td></tr>`).join('')}</tbody></table></div>` : '<p class="text-sm text-slate-400">No public releases were returned by the connected source.</p>';
+            container.innerHTML = workspaceShell('Workspace / Releases', 'Releases', body);
+        }
+
+        function renderAnalytics(container, products) {
+            const downloads = products.reduce((sum, product) => sum + (Number(product.data.downloads) || 0), 0);
+            const followers = products.reduce((sum, product) => sum + (Number(product.data.followers) || 0), 0);
+            const versions = products.reduce((sum, product) => sum + product.versions.length, 0);
+            const body = products.length ? `<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">${[['Downloads', downloads], ['Followers', followers], ['Public releases', versions]].map(([label, value]) => `<div class="dashboard-panel rounded-xl p-5"><p class="dashboard-kicker text-[10px] uppercase font-bold">${label}</p><p class="text-2xl font-extrabold mt-3">${formatNumber(value)}</p><p class="text-[10px] text-slate-500 mt-1">Returned by Modrinth</p></div>`).join('')}</div><div class="dashboard-panel rounded-xl p-5 mt-5"><h2 class="font-bold">Product comparison</h2><div class="mt-5 space-y-4">${products.map(product => `<div><div class="flex justify-between text-xs"><span>${escapeHtml(product.name)}</span><span class="text-slate-500">${formatNumber(product.data.downloads)} downloads</span></div><div class="h-2 bg-slate-800 rounded-full mt-2"><div class="h-full bg-cyan-400 rounded-full" style="width:${downloads ? Math.max(2, (product.data.downloads / downloads) * 100) : 0}%"></div></div></div>`).join('')}</div></div>` : '<p class="text-sm text-slate-400">No analytics data is available from the connected source.</p>';
+            container.innerHTML = workspaceShell('Workspace / Analytics', 'Analytics', body);
+        }
+
+        function saveSettings(event) {
+            event.preventDefault();
+            const form = new FormData(event.target);
+            localStorage.setItem('vynix_settings', JSON.stringify({ quiet: form.get('quiet') === 'on', label: String(form.get('label') || '').trim() }));
+            localStorage.setItem('vynix_dashboard_quiet', String(form.get('quiet') === 'on'));
+            applyDashboardTheme();
+            document.getElementById('settings-status').textContent = 'Saved on this device.';
+        }
+
+        function refreshWorkspaceData() {
+            workspaceDataPromise = null;
+            const status = document.getElementById('studio-status');
+            if (status) status.textContent = 'Live data refreshed.';
+            renderWorkspaceRoute('studio');
+        }
+
+        async function copyStudioSummary() {
+            const status = document.getElementById('studio-status');
+            try {
+                const products = await loadWorkspaceData();
+                await navigator.clipboard.writeText(products.map(product => `${product.name}: ${product.data.description || 'No description'}`).join('\n'));
+                if (status) status.textContent = 'Product summary copied.';
+            } catch (error) {
+                if (status) status.textContent = 'Copy failed; live data is unavailable.';
+            }
         }
 
         async function loadDashboardData() {
