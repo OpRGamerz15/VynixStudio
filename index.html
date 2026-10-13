@@ -8,7 +8,7 @@
     <meta http-equiv="Expires" content="0">
     
     <title>Vynix Studio | Minecraft Software Development Studio</title>
-    <meta name="description" content="Vynix Studio is a Minecraft software development studio creating and maintaining its own launchers, tools, modpacks, shaders, and client technologies.">
+    <meta name="description" content="Vynix Studio creates Minecraft software and tools. Browse NovaGamer15's public Modrinth projects and official studio products.">
     <meta name="keywords" content="Vynix Studio, Minecraft technology studio, Minecraft software development, Vynix PVP, VynixShader, Vynix Launcher, Vynix Forge">
     <meta name="author" content="NovaGamer15">
     <link rel="canonical" href="https://www.vynixstudio.indevs.in/">
@@ -21,13 +21,13 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.vynixstudio.indevs.in/">
     <meta property="og:title" content="Vynix Studio | Minecraft Software Development Studio">
-    <meta property="og:description" content="Vynix Studio creates and maintains its own Minecraft software, products, and technologies.">
+    <meta property="og:description" content="Vynix Studio creates Minecraft software and tools. Browse NovaGamer15's public Modrinth projects and official studio products.">
     <meta property="og:image" content="https://i.pinimg.com/originals/b5/70/4e/b5704ec1057c3d1000b2182054ff8e7b.jpg">
     <meta property="og:site_name" content="Vynix Studio">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Vynix Studio | Minecraft Software Development Studio">
-    <meta name="twitter:description" content="Vynix Studio creates and maintains its own Minecraft software, products, and technologies.">
+    <meta name="twitter:description" content="Vynix Studio creates Minecraft software and tools. Browse NovaGamer15's public Modrinth projects and official studio products.">
     <meta name="twitter:image" content="https://i.pinimg.com/originals/b5/70/4e/b5704ec1057c3d1000b2182054ff8e7b.jpg">
 
     <script type="application/ld+json">
@@ -265,6 +265,18 @@
             <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
                 <div class="flex items-center justify-between mb-8"><div><p class="dashboard-kicker text-[10px] font-bold uppercase">Official portfolio</p><h2 class="text-2xl font-bold tracking-tight mt-2">What we're building</h2><p class="text-sm text-slate-400 mt-2">Original Vynix products, maintained as one focused technology studio.</p></div></div>
                 <div id="official-product-showcase" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+            </section>
+
+            <section class="py-16 border-t border-vynix-border/50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20" aria-labelledby="creator-projects-title">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+                    <div>
+                        <p class="dashboard-kicker text-[10px] font-bold uppercase">Creator portfolio / Modrinth</p>
+                        <h2 id="creator-projects-title" class="text-2xl font-bold tracking-tight mt-2">Projects by NovaGamer15</h2>
+                        <p id="creator-projects-status" class="text-sm text-slate-400 mt-2" aria-live="polite">Loading projects from Modrinth...</p>
+                    </div>
+                    <a href="https://modrinth.com/user/NovaGamer15" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-bold text-cyan-200 hover:text-white">View Modrinth profile <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                </div>
+                <div id="creator-projects-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" aria-live="polite"></div>
             </section>
 
             <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
@@ -517,7 +529,7 @@
         const plannedDashboardProducts = officialProducts.filter(product => !product.slug);
         const routePaths = { home: '/', dashboard: '/dashboard/', development: '/development/', releases: '/releases/', analytics: '/analytics/', studio: '/studio/', settings: '/settings/', shop: '/shop/' };
         const routeMetadata = {
-            home: { title: 'Vynix Studio | Minecraft Software Development Studio', description: 'Vynix Studio creates and maintains original Minecraft software, launchers, tools, modpacks, shaders, and client technologies.', robots: 'index, follow' },
+            home: { title: 'Vynix Studio | Minecraft Software Development Studio', description: 'Vynix Studio creates Minecraft software and tools. Browse public Modrinth projects from NovaGamer15 and official studio products.', robots: 'index, follow' },
             dashboard: { title: 'Control Center | Vynix Studio', description: 'The Vynix Studio workspace for official products, development projects, releases, and studio activity.', robots: 'noindex, nofollow' },
             development: { title: 'Minecraft Project Development | Vynix Studio', description: 'Explore development progress and official Minecraft projects maintained by Vynix Studio.', robots: 'index, follow' },
             releases: { title: 'Minecraft Software Releases | Vynix Studio', description: 'Browse public versions and release activity for official Vynix Studio Minecraft products.', robots: 'index, follow' },
@@ -917,11 +929,40 @@
             router('home');
         }
 
+        async function loadCreatorProjects() {
+            const status = document.getElementById('creator-projects-status');
+            const grid = document.getElementById('creator-projects-grid');
+            if (!status || !grid) return;
+            const projectTypes = { mod: 'Mod', modpack: 'Modpack', plugin: 'Plugin', resourcepack: 'Resource pack', shader: 'Shader', datapack: 'Data pack' };
+            grid.innerHTML = '<div class="dashboard-panel rounded-xl p-5 text-xs text-slate-400">Loading creator projects...</div>';
+            try {
+                const projects = await fetchJson(`https://api.modrinth.com/v2/user/${encodeURIComponent('NovaGamer15')}/projects`);
+                const cards = projects.filter(project => project.slug && projectTypes[project.project_type]).map(project => {
+                    const projectUrl = `https://modrinth.com/${project.project_type}/${encodeURIComponent(project.slug)}`;
+                    const iconUrl = getValidUrl(project.icon_url);
+                    return `<a href="${escapeHtml(projectUrl)}" target="_blank" rel="noopener noreferrer" class="dashboard-product-card block rounded-xl p-5 text-inherit no-underline">
+                        <div class="flex items-center gap-3">
+                            ${iconUrl ? `<img src="${escapeHtml(iconUrl)}" alt="" loading="lazy" class="w-12 h-12 rounded-lg object-cover bg-black/20">` : '<span class="w-12 h-12 rounded-lg bg-emerald-400/10 text-emerald-200 flex items-center justify-center"><i class="fa-solid fa-cube" aria-hidden="true"></i></span>'}
+                            <div class="min-w-0"><h3 class="font-bold truncate">${escapeHtml(project.title || project.slug)}</h3><p class="text-[10px] text-slate-500 mt-1">${escapeHtml(projectTypes[project.project_type])}</p></div>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed mt-4">${escapeHtml(project.description || 'No description provided.')}</p>
+                        <div class="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-[10px] font-semibold text-slate-500"><span>${formatNumber(project.downloads)} downloads</span><span>${formatNumber(project.followers)} followers</span></div>
+                    </a>`;
+                });
+                grid.innerHTML = cards.length ? cards.join('') : '<p class="text-sm text-slate-400">No public Modrinth projects were found for this profile.</p>';
+                status.textContent = `${cards.length} public project${cards.length === 1 ? '' : 's'} from Modrinth`;
+            } catch {
+                status.textContent = 'Projects could not be loaded from Modrinth.';
+                grid.innerHTML = '<div class="dashboard-panel rounded-xl p-5"><p class="text-xs text-slate-400">Check your connection and try again.</p><button type="button" onclick="loadCreatorProjects()" class="mt-3 rounded-lg border border-slate-600 px-3 py-2 text-xs font-bold text-slate-200 hover:border-cyan-300/50">Retry</button></div>';
+            }
+        }
+
         async function loadHomeData() {
             const showcase = document.getElementById('official-product-showcase');
             if (showcase) {
                 showcase.innerHTML = officialProducts.map(product => `<article class="dashboard-product-card rounded-2xl p-5"><div class="flex items-start justify-between gap-3"><div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl bg-${escapeHtml(product.accent)}-400/10 text-${escapeHtml(product.accent)}-300 flex items-center justify-center"><i class="fa-solid ${escapeHtml(product.icon)}" aria-hidden="true"></i></div><div><h3 class="font-bold">${escapeHtml(product.name)}</h3><p class="text-[10px] text-slate-500 mt-1">${escapeHtml(product.type)}</p></div></div>${dashboardStatusBadge(product.status)}</div><p class="text-xs text-slate-400 leading-relaxed mt-4">${escapeHtml(product.description)}</p></article>`).join('');
             }
+            loadCreatorProjects();
             return;
             const spotlightContainer = document.getElementById('spotlight-showcase-container');
             let spotlightProj = userProjects.length > 0 ? userProjects[0] : null;

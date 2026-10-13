@@ -688,6 +688,7 @@ const NAV = [
   { r: "editors", t: "Editors", i: "✎" },
   { g: "Studio ops" },
   { r: "team", t: "Team", i: "👥" },
+  { r: "services", href: "/dashboard/services/", t: "Order Services", i: "▣" },
   { r: "shop", t: "Shop", i: "🛍" },
   { r: "analytics", t: "Analytics", i: "📈" },
   { r: "notifications", t: "Notifications", i: "🔔", badge: true },
@@ -698,7 +699,7 @@ function renderNav() {
   const unread = Store.list("notifications").filter((n) => !n.read).length;
   $("#nav").innerHTML = NAV.map((n) => n.g
     ? `<div class="nav-label">${esc(n.g)}</div>`
-    : `<a href="#/${n.r}" class="${cur === n.r ? "active" : ""}"><span class="ic">${n.i}</span>${esc(n.t)}${n.badge && unread ? `<span class="badge">${unread}</span>` : ""}</a>`).join("");
+    : `<a href="${n.href || '#/' + n.r}" class="${cur === n.r ? "active" : ""}"><span class="ic">${n.i}</span>${esc(n.t)}${n.badge && unread ? `<span class="badge">${unread}</span>` : ""}</a>`).join("");
 }
 function renderNotifDot() {
   const unread = Store.list("notifications").filter((n) => !n.read).length;
@@ -715,7 +716,7 @@ function route(name, fn) { ROUTES[name] = fn; }
 async function render() {
   const raw = location.hash.replace(/^#\/?/, "");
   const parts = raw.split("/").filter(Boolean);
-  const name = parts[0] || "overview";
+  const name = parts[0] || "home";
   const view = $("#view");
   const fn = ROUTES[name];
   window.scrollTo(0, 0);
@@ -3096,8 +3097,10 @@ document.addEventListener("keydown", (e) => {
   renderNotifDot();
   document.documentElement.classList.remove("vs-locked");
   const ls = document.getElementById("lockScreen"); if (ls) ls.remove();
-  if (!location.hash || /^#access_token=/.test(location.hash)) {
-    location.hash = Lock.isSet() && !Lock.isUnlocked() ? "#/login" : "#/home";
+  if (!location.hash || location.hash === "#/home" || /^#access_token=/.test(location.hash)) {
+    const needsLogin = Lock.isSet() && !Lock.isUnlocked();
+    history.replaceState(null, "", location.pathname + location.search);
+    if (needsLogin) location.hash = "#/login";
   }
   await render();
 })();

@@ -7,6 +7,7 @@ The official website and control center for **Vynix Studio**, a Minecraft techno
 ## ✨ Features
 
 * 🔴 **Live Modrinth data for official Vynix PVP and VynixShader products**
+* 🟩 **Live public projects from NovaGamer15's Modrinth profile**
 * 🧭 Official product showcase
 * 🛠️ Vynix Studio Control Center and local developer workspace
 * 🌙 Dark Minecraft-inspired UI
@@ -20,7 +21,7 @@ The official website and control center for **Vynix Studio**, a Minecraft techno
 * **HTML5**
 * **Tailwind CSS (CDN)**
 * **Vanilla JavaScript**
-* **Fetch API** for the two official Modrinth product integrations
+* **Fetch API** for official product data and NovaGamer15's public Modrinth project list
 
 No build tools or backend are required for the public static site. The developer workspace can save product status and studio records in browser storage, but it is not an authenticated server-management panel.
 
@@ -65,7 +66,7 @@ http://localhost:8000
 
 ## 🌐 Official Product API Data
 
-The application uses Modrinth project and version endpoints only for the official Vynix PVP and VynixShader pages. It does not search, browse, recommend, or import arbitrary Modrinth projects.
+The application reads the public project list for [NovaGamer15](https://modrinth.com/user/NovaGamer15) from Modrinth's user-project endpoint. It also fetches project and version data for official Vynix PVP and VynixShader products. It does not search, browse, recommend, or import arbitrary Modrinth projects.
 
 ---
 
