@@ -219,6 +219,7 @@
                 <button onclick="router('development')" class="hover:text-cyan-400 transition-colors cursor-pointer">Development</button>
                 <button onclick="router('releases')" class="hover:text-cyan-400 transition-colors cursor-pointer">Releases</button>
                 <button onclick="router('dashboard')" class="text-emerald-300 hover:text-emerald-200 transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-gauge-high text-xs" aria-hidden="true"></i> Control Center</button>
+                <a href="/dashboard/services/" class="text-cyan-200 hover:text-cyan-100 transition-colors cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-clipboard-list text-xs" aria-hidden="true"></i> Order Services</a>
                 <a href="https://discord.gg/BH5TcybwG4" target="_blank" rel="noopener noreferrer" aria-label="Join our Discord community" class="px-3.5 py-2 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5">
                     <i class="fa-brands fa-discord text-sm" aria-hidden="true"></i> Join Discord
                 </a>
@@ -226,6 +227,7 @@
 
             <div class="flex items-center space-x-4">
                 <button onclick="router('dashboard')" aria-label="Open Vynix Studio Control Center" class="md:hidden w-9 h-9 rounded-lg border border-slate-700 text-emerald-300 hover:border-emerald-300/50"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i></button>
+                <a href="/dashboard/services/" aria-label="Order a service" class="md:hidden w-9 h-9 rounded-lg border border-slate-700 text-cyan-200 hover:border-cyan-300/50 flex items-center justify-center"><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></a>
                 <div class="relative hidden sm:block">
                     <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Official studio products</span>
                 </div>
@@ -293,6 +295,7 @@
                         <nav class="py-5 space-y-1" aria-label="Control center navigation">
                             <p class="dashboard-kicker text-[9px] font-bold uppercase px-3 pb-2">Workspace</p>
                             <button onclick="focusDashboardSection('dashboard-overview', this)" class="dashboard-side-link is-active w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center gap-3"><i class="fa-solid fa-grid-2 w-4 text-center" aria-hidden="true"></i> Overview</button>
+                            <a href="/dashboard/services/" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-clipboard-list w-4 text-center" aria-hidden="true"></i> Order Services</a>
                             <button onclick="focusDashboardSection('dashboard-products', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-cubes w-4 text-center" aria-hidden="true"></i> Products</button>
                             <button onclick="focusDashboardSection('dashboard-projects', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-diagram-project w-4 text-center" aria-hidden="true"></i> Projects</button>
                             <button onclick="focusDashboardSection('dashboard-roadmap', this)" class="dashboard-side-link w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/5 flex items-center gap-3"><i class="fa-solid fa-route w-4 text-center" aria-hidden="true"></i> Roadmap</button>
@@ -513,10 +516,31 @@
         const dashboardProducts = officialProducts.filter(product => product.slug);
         const plannedDashboardProducts = officialProducts.filter(product => !product.slug);
         const routePaths = { home: '/', dashboard: '/dashboard/', development: '/development/', releases: '/releases/', analytics: '/analytics/', studio: '/studio/', settings: '/settings/', shop: '/shop/' };
+        const routeMetadata = {
+            home: { title: 'Vynix Studio | Minecraft Software Development Studio', description: 'Vynix Studio creates and maintains original Minecraft software, launchers, tools, modpacks, shaders, and client technologies.', robots: 'index, follow' },
+            dashboard: { title: 'Control Center | Vynix Studio', description: 'The Vynix Studio workspace for official products, development projects, releases, and studio activity.', robots: 'noindex, nofollow' },
+            development: { title: 'Minecraft Project Development | Vynix Studio', description: 'Explore development progress and official Minecraft projects maintained by Vynix Studio.', robots: 'index, follow' },
+            releases: { title: 'Minecraft Software Releases | Vynix Studio', description: 'Browse public versions and release activity for official Vynix Studio Minecraft products.', robots: 'index, follow' },
+            analytics: { title: 'Product Analytics | Vynix Studio', description: 'Private analytics workspace for Vynix Studio product metrics and activity.', robots: 'noindex, nofollow' },
+            studio: { title: 'Studio Workspace | Vynix Studio', description: 'Local studio workspace for managing public Vynix Studio product records.', robots: 'noindex, nofollow' },
+            settings: { title: 'Workspace Settings | Vynix Studio', description: 'Local preferences for the Vynix Studio workspace.', robots: 'noindex, nofollow' },
+            shop: { title: 'Official Shop | Vynix Studio', description: 'Visit the official Vynix Studio store for product availability and purchases.', robots: 'index, follow' }
+        };
 
         function router(viewName, param = null, options = {}) {
             currentActiveView = viewName;
             const routePath = routePaths[viewName] || routePaths.home;
+            const metadata = routeMetadata[viewName] || routeMetadata.home;
+            const canonicalUrl = `https://www.vynixstudio.indevs.in${routePath}`;
+            document.title = metadata.title;
+            document.querySelector('meta[name="description"]').content = metadata.description;
+            document.querySelector('meta[name="robots"]').content = metadata.robots;
+            document.querySelector('link[rel="canonical"]').href = canonicalUrl;
+            document.querySelector('meta[property="og:url"]').content = canonicalUrl;
+            document.querySelector('meta[property="og:title"]').content = metadata.title;
+            document.querySelector('meta[property="og:description"]').content = metadata.description;
+            document.querySelector('meta[name="twitter:title"]').content = metadata.title;
+            document.querySelector('meta[name="twitter:description"]').content = metadata.description;
             if (!options.silent && window.location.pathname !== routePath) history.pushState({ view: viewName }, '', routePath);
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             const targetView = document.getElementById(`view-${viewName}`);
@@ -541,7 +565,10 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            router(routeFromLocation(), null, { silent: true });
+            const initialRoute = routeFromLocation();
+            router(initialRoute, null, { silent: true });
+            const requestedRoute = new URLSearchParams(window.location.search).get('route');
+            if (requestedRoute && routePaths[requestedRoute]) history.replaceState({ view: initialRoute }, '', routePaths[initialRoute]);
         });
         window.addEventListener('popstate', () => router(routeFromLocation(), null, { silent: true }));
 
