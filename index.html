@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coming Back Soon!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@800&family=Karla:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#ece4f7; --ink:#231636; --muted:#5d4a78; --hat:#7b2fd6; --vest:#b57bff;
+  --skin:#e0a77c; --wood:#9b7350; --wood2:#7d5a3b; --metal:#6c7a85; --ground:#cdbde6; --spark:#a855f7;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1230; --ink:#f3ecfb; --muted:#b9a5d6; --ground:#2f2148; --hat:#a566f0; --vest:#c79bff; --spark:#d9a6ff; --wood:#a67c57; --wood2:#86603f; --metal:#9aa8b2;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1230; --ink:#f3ecfb; --muted:#b9a5d6; --ground:#2f2148; --hat:#a566f0; --vest:#c79bff; --spark:#d9a6ff; --wood:#a67c57; --wood2:#86603f; --metal:#9aa8b2; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Karla",system-ui,-apple-system,"Segoe UI",sans-serif;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+main{width:100%;max-width:620px;text-align:center}
+svg{width:100%;max-width:520px;height:auto;display:block;margin:0 auto}
+h1{
+  font-family:"Rubik","Arial Black",system-ui,sans-serif;font-weight:800;
+  font-size:clamp(2.2rem,8vw,3.6rem);line-height:1.05;margin:8px 0 12px;letter-spacing:-.01em;
+}
+p{font-size:1.1rem;line-height:1.5;color:var(--muted);margin:0 auto;max-width:34ch}
+.bar{width:min(320px,80%);height:10px;border-radius:6px;background:var(--ground);margin:26px auto 0;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:repeating-linear-gradient(-45deg,var(--hat) 0 12px,var(--ink) 12px 24px);transform-origin:left;animation:fill 4.8s linear infinite}
+.status{margin-top:10px;font-size:.95rem;color:var(--muted)}
+
+/* animation: one hammer swing every 1.2s, nail drives in a bit each hit */
+.arm{transform-origin:165px 130px;animation:swing 1.2s ease-in infinite}
+@keyframes swing{
+  0%{transform:rotate(-70deg)}
+  45%{transform:rotate(-95deg);animation-timing-function:cubic-bezier(.6,0,1,.6)}
+  70%{transform:rotate(0deg)}
+  80%{transform:rotate(-14deg);animation-timing-function:ease-out}
+  100%{transform:rotate(-70deg)}
+}
+.body{transform-origin:155px 250px;animation:lean 1.2s ease-in-out infinite}
+@keyframes lean{0%,100%{transform:rotate(-1deg)}45%{transform:rotate(-3deg)}70%{transform:rotate(2deg)}}
+.nail{animation:nail 4.8s steps(1,end) infinite}
+@keyframes nail{0%{transform:translateX(0)}18%{transform:translateX(2px)}43%{transform:translateX(4px)}68%{transform:translateX(6px)}93%{transform:translateX(8px)}99.5%{transform:translateX(0)}}
+.spark{opacity:0;animation:spark 1.2s linear infinite;transform-origin:278px 160px}
+@keyframes spark{0%,69%{opacity:0;transform:scale(.4)}71%{opacity:1;transform:scale(1)}84%,100%{opacity:0;transform:scale(1.6)}}
+.shake{animation:shake 1.2s linear infinite}
+@keyframes shake{0%,69%,78%,100%{transform:translateX(0)}71%{transform:translateX(1.5px)}74%{transform:translateX(-1px)}}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.dot{animation:blink 1.4s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .arm,.body,.nail,.spark,.shake,.bar i,.dot{animation:none}
+  .arm{transform:rotate(-30deg)}
+  .bar i{transform:scaleX(.6)}
+}
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 440 290" role="img" aria-label="A construction worker in a yellow hard hat hammering a nail into a wooden post">
+    <!-- ground -->
+    <rect x="0" y="250" width="440" height="6" rx="3" fill="var(--ground)"/>
+    <!-- post -->
+    <g class="shake">
+      <rect x="300" y="60" width="40" height="192" rx="3" fill="var(--wood)"/>
+      <path d="M312 80v150M326 70v170" stroke="var(--wood2)" stroke-width="2" fill="none" opacity=".6"/>
+      <!-- nail -->
+      <g class="nail">
+        <rect x="278" y="157" width="22" height="5" fill="var(--metal)"/>
+        <rect x="274" y="150" width="5" height="19" rx="1.5" fill="var(--metal)"/>
+      </g>
+    </g>
+    <!-- sparks -->
+    <g class="spark" stroke="var(--spark)" stroke-width="3" stroke-linecap="round">
+      <path d="M276 160l-18-12M276 160l-22 2M276 160l-18 14M276 160l-8-22M276 160l-8 24"/>
+    </g>
+
+    <!-- worker -->
+    <g class="body">
+      <!-- legs -->
+      <rect x="140" y="182" width="15" height="68" rx="4" fill="#3b2a5c"/>
+      <rect x="160" y="182" width="15" height="68" rx="4" fill="#3b2a5c"/>
+      <rect x="134" y="244" width="26" height="8" rx="3" fill="#1b2a35"/>
+      <rect x="158" y="244" width="26" height="8" rx="3" fill="#1b2a35"/>
+      <!-- torso -->
+      <rect x="132" y="108" width="46" height="80" rx="10" fill="var(--vest)"/>
+      <rect x="132" y="146" width="46" height="6" fill="#f3e5ff" opacity=".9"/>
+      <!-- head -->
+      <circle cx="157" cy="90" r="17" fill="var(--skin)"/>
+      <circle cx="164" cy="90" r="2" fill="#1b2a35"/>
+      <path d="M160 99q5 3 9 0" stroke="#1b2a35" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- hard hat -->
+      <path d="M138 88a19 19 0 0 1 38 0z" fill="var(--hat)"/>
+      <rect x="134" y="86" width="50" height="6" rx="3" fill="var(--hat)"/>
+      <rect x="153" y="66" width="7" height="14" rx="2" fill="#5a1fa3"/>
+      <!-- swinging arm + hammer (drawn from shoulder at 165,130, pointing right) -->
+      <g class="arm">
+        <rect x="165" y="124" width="56" height="13" rx="6.5" fill="var(--vest)"/>
+        <circle cx="222" cy="130" r="8" fill="var(--skin)"/>
+        <rect x="216" y="127" width="48" height="6" rx="3" fill="var(--wood2)"/>
+        <rect x="258" y="115" width="19" height="30" rx="3" fill="var(--metal)"/>
+        <rect x="270" y="115" width="7" height="30" rx="3" fill="#2f3a42"/>
+      </g>
+    </g>
+  </svg>
+
+  <h1>Coming Back Soon!</h1>
+  <p>We’re hammering a few things into place. Hang tight, we’ll be open again shortly.</p>
+  <div class="bar" role="progressbar" aria-label="Work in progress"><i></i></div>
+  <div class="status">Working<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></div>
+</main>
+</body>
+</html>
