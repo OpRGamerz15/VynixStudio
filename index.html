@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coming Back Soon! | VynixStudioIndevs</title>
+<meta name="description" content="Get ready everyone! We’re currently working on something awesome.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#08050D; --bg2:#10091A; --purple:#A855F7; --violet:#8B5CF6; --lav:#C4A5F5;
+  --text:#FFFFFF; --muted:#9992A5; --line:rgba(196,165,245,.18);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+:root[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+body{
+  margin:0;min-height:100%;background:var(--bg);color:var(--text);
+  font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  display:flex;align-items:center;justify-content:center;
+  padding:32px 20px;overflow-x:hidden;position:relative;
+}
+/* ambient glows */
+.glow{position:fixed;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;opacity:.5}
+.g1{top:-28vmax;left:-24vmax;background:radial-gradient(circle,rgba(168,85,247,.55),transparent 65%);animation:drift1 22s ease-in-out infinite alternate}
+.g2{bottom:-30vmax;right:-26vmax;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 65%);animation:drift2 26s ease-in-out infinite alternate}
+.g3{top:35%;left:50%;width:34vmax;height:34vmax;margin:-17vmax 0 0 -17vmax;background:radial-gradient(circle,rgba(16,9,26,.9),transparent 70%);opacity:.9;filter:blur(40px)}
+@keyframes drift1{to{transform:translate(9vmax,7vmax) scale(1.12)}}
+@keyframes drift2{to{transform:translate(-8vmax,-6vmax) scale(1.1)}}
+
+main{position:relative;z-index:1;width:100%;max-width:640px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.fade{opacity:0;transform:translateY(12px);animation:in .9s cubic-bezier(.2,.7,.2,1) forwards}
+.d1{animation-delay:.05s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
+@keyframes in{to{opacity:1;transform:none}}
+
+.scene{width:100%;max-width:460px;height:auto;display:block}
+.sparkle{width:38px;height:38px;margin:14px 0 6px;filter:drop-shadow(0 0 10px rgba(168,85,247,.9)) drop-shadow(0 0 22px rgba(139,92,246,.55));animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{transform:scale(.9) rotate(0);opacity:.8}50%{transform:scale(1.12) rotate(12deg);opacity:1}}
+h1{
+  margin:10px 0 14px;font-weight:800;letter-spacing:-.03em;line-height:1.02;
+  font-size:clamp(2.4rem,9vw,4.4rem);color:var(--text);
+  text-shadow:0 0 40px rgba(139,92,246,.35);
+}
+.sub{margin:0;max-width:30ch;font-size:clamp(1rem,2.6vw,1.15rem);line-height:1.6;color:var(--muted)}
+.social{display:flex;gap:14px;margin:34px 0 0;padding:0;list-style:none}
+.social a{
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--lav);
+  border:1px solid var(--line);background:rgba(16,9,26,.6);
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,color .25s ease;
+}
+.social a:hover,.social a:focus-visible{
+  transform:translateY(-3px);color:var(--text);border-color:rgba(168,85,247,.7);
+  box-shadow:0 0 0 1px rgba(168,85,247,.25),0 8px 24px rgba(139,92,246,.35);outline:none;
+}
+.social svg{width:18px;height:18px}
+
+/* worker: 7.2s cycle = 3 hammer hits, then drilling */
+.tool-a{animation:ta 7.2s linear infinite}
+.tool-b{animation:tb 7.2s linear infinite}
+@keyframes ta{0%,47%{opacity:1}50%,97%{opacity:0}100%{opacity:1}}
+@keyframes tb{0%,47%{opacity:0}50%,97%{opacity:1}100%{opacity:0}}
+.arm{transform-origin:165px 130px;animation:swing 1.2s ease-in infinite}
+@keyframes swing{
+  0%{transform:rotate(-70deg)}
+  45%{transform:rotate(-95deg);animation-timing-function:cubic-bezier(.6,0,1,.6)}
+  70%{transform:rotate(0deg)}
+  80%{transform:rotate(-14deg);animation-timing-function:ease-out}
+  100%{transform:rotate(-70deg)}
+}
+.body{transform-origin:155px 250px;animation:lean 1.2s ease-in-out infinite}
+@keyframes lean{0%,100%{transform:rotate(-1deg)}45%{transform:rotate(-3deg)}70%{transform:rotate(2deg)}}
+.nail{animation:nail 7.2s steps(1,end) infinite}
+@keyframes nail{0%{transform:translateX(0)}11.7%{transform:translateX(2px)}28.3%{transform:translateX(4px)}45%{transform:translateX(6px)}100%{transform:translateX(0)}}
+.spark{opacity:0;animation:spark 1.2s linear infinite;transform-origin:276px 160px}
+@keyframes spark{0%,69%{opacity:0;transform:scale(.4)}71%{opacity:1;transform:scale(1)}84%,100%{opacity:0;transform:scale(1.6)}}
+.vib{animation:vib .09s linear infinite}
+@keyframes vib{0%{transform:translate(0,0)}25%{transform:translate(1.4px,.6px)}50%{transform:translate(-.6px,-.8px)}75%{transform:translate(1px,-.4px)}100%{transform:translate(0,0)}}
+.bit{stroke-dasharray:4 3;animation:spin .18s linear infinite}
+@keyframes spin{to{stroke-dashoffset:-7}}
+.dust circle{animation:dust .7s ease-out infinite;opacity:0}
+.dust circle:nth-child(2){animation-delay:.23s}.dust circle:nth-child(3){animation-delay:.46s}
+@keyframes dust{0%{opacity:.9;transform:translate(0,0)}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+
+@media (prefers-reduced-motion:reduce){
+  .glow,.sparkle,.fade,.arm,.body,.nail,.spark,.vib,.bit,.dust circle,.tool-a,.tool-b{animation:none}
+  .fade{opacity:1;transform:none}
+  .arm{transform:rotate(-30deg)}
+  .tool-b,.spark,.dust{opacity:0}
+}
+</style>
+</head>
+<body>
+<div class="glow g1" aria-hidden="true"></div>
+<div class="glow g2" aria-hidden="true"></div>
+<div class="glow g3" aria-hidden="true"></div>
+
+<main>
+  <svg class="scene fade d1" viewBox="0 0 440 270" role="img" aria-label="A worker in a purple hard hat alternating between hammering a nail and drilling into a wooden post">
+    <rect x="20" y="250" width="400" height="3" rx="1.5" fill="rgba(196,165,245,.18)"/>
+    <!-- post -->
+    <rect x="300" y="60" width="40" height="192" rx="3" fill="#a67c57"/>
+    <path d="M312 80v150M326 70v170" stroke="#86603f" stroke-width="2" fill="none" opacity=".6"/>
+    <g class="nail">
+      <rect x="278" y="157" width="22" height="5" fill="#9aa8b2"/>
+      <rect x="274" y="150" width="5" height="19" rx="1.5" fill="#9aa8b2"/>
+    </g>
+    <g class="tool-a">
+      <g class="spark" stroke="#C4A5F5" stroke-width="3" stroke-linecap="round" fill="none">
+        <path d="M276 160l-18-12M276 160l-22 2M276 160l-18 14M276 160l-8-22M276 160l-8 24"/>
+      </g>
+    </g>
+
+    <!-- worker -->
+    <g class="body">
+      <rect x="140" y="182" width="15" height="68" rx="4" fill="#3b2a5c"/>
+      <rect x="160" y="182" width="15" height="68" rx="4" fill="#3b2a5c"/>
+      <rect x="134" y="244" width="26" height="8" rx="3" fill="#150d22"/>
+      <rect x="158" y="244" width="26" height="8" rx="3" fill="#150d22"/>
+      <rect x="132" y="108" width="46" height="80" rx="10" fill="#A855F7"/>
+      <rect x="132" y="146" width="46" height="6" fill="#f3e5ff" opacity=".9"/>
+      <circle cx="157" cy="90" r="17" fill="#e0a77c"/>
+      <circle cx="164" cy="90" r="2" fill="#1b1030"/>
+      <path d="M160 99q5 3 9 0" stroke="#1b1030" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M138 88a19 19 0 0 1 38 0z" fill="#8B5CF6"/>
+      <rect x="134" y="86" width="50" height="6" rx="3" fill="#8B5CF6"/>
+      <rect x="153" y="66" width="7" height="14" rx="2" fill="#5b32b4"/>
+
+      <!-- hammer arm -->
+      <g class="tool-a">
+        <g class="arm">
+          <rect x="165" y="124" width="56" height="13" rx="6.5" fill="#A855F7"/>
+          <circle cx="222" cy="130" r="8" fill="#e0a77c"/>
+          <rect x="216" y="127" width="48" height="6" rx="3" fill="#7d5a3b"/>
+          <rect x="258" y="115" width="19" height="30" rx="3" fill="#9aa8b2"/>
+          <rect x="270" y="115" width="7" height="30" rx="3" fill="#2f3a42"/>
+        </g>
+      </g>
+
+      <!-- drill arm -->
+      <g class="tool-b">
+        <g transform="rotate(28 165 130)">
+          <rect x="165" y="124" width="56" height="13" rx="6.5" fill="#A855F7"/>
+          <g class="vib">
+            <rect x="212" y="118" width="52" height="22" rx="5" fill="#3b2a5c" stroke="#C4A5F5" stroke-width="1.2"/>
+            <rect x="226" y="138" width="10" height="16" rx="3" fill="#2a1d44" stroke="#C4A5F5" stroke-width="1.2"/>
+            <rect x="264" y="124" width="14" height="10" rx="2" fill="#9aa8b2"/>
+            <line class="bit" x1="278" y1="129" x2="315" y2="129" stroke="#C4A5F5" stroke-width="3.5"/>
+          </g>
+          <circle cx="222" cy="130" r="8" fill="#e0a77c"/>
+        </g>
+        <g class="dust" fill="#C4A5F5">
+          <circle cx="297" cy="199" r="2.2" style="--dx:-14px;--dy:-14px"/>
+          <circle cx="297" cy="199" r="1.8" style="--dx:-18px;--dy:6px"/>
+          <circle cx="297" cy="199" r="2" style="--dx:-8px;--dy:16px"/>
+        </g>
+      </g>
+    </g>
+  </svg>
+
+  <svg class="sparkle fade d2" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 1c.7 6.3 4.7 10.3 11 11-6.3.7-10.3 4.7-11 11-.7-6.3-4.7-10.3-11-11C7.3 11.3 11.3 7.3 12 1z" fill="#C4A5F5"/>
+  </svg>
+
+  <h1 class="fade d3">Coming Back Soon!</h1>
+  <p class="sub fade d4">Get ready everyone! We’re currently working on something awesome.</p>
+
+  <ul class="social fade d5">
+    <li><a href="https://github.com/OpRGamerz15" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a></li>
+  </ul>
+</main>
+</body>
+</html>
